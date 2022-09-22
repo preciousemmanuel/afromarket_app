@@ -10,14 +10,17 @@ import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import Navigator from './navigator';
 import {NativeBaseProvider} from 'native-base';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <NativeBaseProvider>
-        <Navigator />
-      </NativeBaseProvider>
-    </NavigationContainer>
+    <GestureHandlerRootView>
+      <NavigationContainer>
+        <NativeBaseProvider>
+          <Navigator />
+        </NativeBaseProvider>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 
