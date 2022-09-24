@@ -11,6 +11,7 @@ import React from 'react';
 import Navigator from './navigator';
 import {NativeBaseProvider} from 'native-base';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import theme from './theme';
 
 const App = () => {
   return (
@@ -19,7 +20,7 @@ const App = () => {
         flex: 1,
       }}>
       <NavigationContainer>
-        <NativeBaseProvider>
+        <NativeBaseProvider theme={theme}>
           <Navigator />
         </NativeBaseProvider>
       </NavigationContainer>
