@@ -1,4 +1,6 @@
 export default {
+  danger: "#C30000",
+  pending: "#7B61FF",
   primary: "#04AF00",
   white: "#fff",
   // light: "#f8f4f4",

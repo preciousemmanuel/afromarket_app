@@ -86,11 +86,6 @@ export default function SelectAddress() {
 }
 
 const styles = StyleSheet.create({
-  delivery: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    backgroundColor: Colors.white,
-  },
   flexRow: {
     flexDirection: "row",
     justifyContent: "center",
@@ -109,13 +104,15 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light,
     paddingBottom: 80,
   },
+  delivery: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    backgroundColor: Colors.white,
+  },
   tapToChange: {
     textAlign: "center",
     borderTopColor: Colors.light,
-    borderWidth: 1.9,
-    borderBottomWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
+    borderTopWidth: 1.9,
     color: Colors.primary,
     fontSize: 18,
     fontWeight: "400",

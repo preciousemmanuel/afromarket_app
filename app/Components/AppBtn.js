@@ -4,7 +4,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../Config/Colors";
 import AppText from "./AppText";
 
-export default function AppBtn({ title, handlePress, color, style }) {
+export default function AppBtn({
+  title,
+  handlePress,
+  color = Colors.primary,
+  style,
+}) {
   return (
     <TouchableOpacity
       style={[{ ...styles.buttonContainer, backgroundColor: color }, style]}

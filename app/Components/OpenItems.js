@@ -3,17 +3,48 @@ import React from "react";
 import AppText, { MeidumText } from "./AppText";
 import Colors from "../Config/Colors";
 
-export default function OpenItems() {
+export default function OpenItems({
+  title,
+  subTitle,
+  date,
+  label,
+  labelColor,
+}) {
   return (
     <View style={styles.item}>
       <Image source={require("../assets/image5.jpg")} style={styles.img} />
       <View style={styles.txtCont}>
         <View>
-          <MeidumText text="iPhone 11 Green 64GB" style={{ fontSize: 19 }} />
-          <AppText text="Order #1234667" />
-          <AppText text="Pending" style={styles.label} />
+          <MeidumText text={title} style={{ fontSize: 19 }} />
+          <AppText
+            text={subTitle}
+            style={{ fontSize: 12, fontWeight: "400" }}
+          />
+          <AppText
+            text={label}
+            style={[styles.label, { backgroundColor: labelColor }]}
+          />
         </View>
-        <AppText text="Delivering on Friday, May 1, 2022" />
+        <AppText text={`Delivering on ${date}`} style={{ fontSize: 14 }} />
+      </View>
+    </View>
+  );
+}
+export function Items({ title, subTitle, date, label, labelColor }) {
+  return (
+    <View style={styles.item}>
+      <Image source={require("../assets/image5.jpg")} style={styles.img} />
+      <View style={styles.txtCont}>
+        <View>
+          <MeidumText text={title} style={{ fontSize: 19 }} />
+          <AppText
+            text={label}
+            style={[styles.label, { backgroundColor: labelColor }]}
+          />
+        </View>
+
+        <AppText text={subTitle} style={{ fontSize: 14 }} />
+        <AppText text={date} style={{ fontSize: 14 }} />
       </View>
     </View>
   );
@@ -23,18 +54,20 @@ const styles = StyleSheet.create({
   label: {
     color: Colors.white,
     textAlign: "center",
-    padding: 10,
-    backgroundColor: Colors.primary,
-    width: 90,
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+    minWidth: 90,
+    maxWidth: 120,
     borderRadius: 6,
   },
   item: {
     flexDirection: "row",
     width: "100%",
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     height: 125,
     paddingHorizontal: 10,
     paddingVertical: 10,
+    marginBottom: 10,
   },
   img: {
     borderRadius: 5,

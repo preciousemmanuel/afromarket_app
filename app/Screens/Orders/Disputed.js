@@ -4,69 +4,69 @@ import OpenItems from "../../Components/OpenItems";
 import Screen from "../Screen";
 import Colors from "../../Config/Colors";
 
-export default function OpenOrders() {
+export default function DisputedOrders() {
   const items = [
     {
       id: 2,
       title: "iPhone 11 Green 64gb",
       subtitle: "Order #123456",
-      label: "Active",
+      label: "Disputed",
       date: "Friday May 1, 2022",
     },
     {
       id: 3,
       title: "iPhone 11 Green 64gb",
       subtitle: "Order #123456",
-      label: "Pending",
+      label: "Disputed-Lost",
       date: "Friday May 1, 2022",
     },
     {
       id: 4,
       title: "iPhone 11 Green 64gb",
       subtitle: "Order #123456",
-      label: "Active",
+      label: "Disputed-Won",
       date: "Friday May 1, 2022",
     },
     {
       id: 5,
       title: "iPhone 11 Green 64gb",
       subtitle: "Order #123456",
-      label: "Pending",
+      label: "Disputed-Lost",
       date: "Friday May 1, 2022",
     },
     {
       id: 6,
       title: "iPhone 11 Green 64gb",
       subtitle: "Order #123456",
-      label: "Active",
+      label: "Disputed-Won",
       date: "Friday May 1, 2022",
     },
     {
       id: 7,
       title: "iPhone 11 Green 64gb",
       subtitle: "Order #123456",
-      label: "Active",
+      label: "Disputed-Won",
       date: "Friday May 1, 2022",
     },
     {
       id: 8,
       title: "iPhone 11 Green 64gb",
       subtitle: "Order #123456",
-      label: "Pending",
+      label: "Disputed-Lost",
       date: "Friday May 1, 2022",
     },
     {
       id: 9,
       title: "iPhone 11 Green 64gb",
       subtitle: "Order #123456",
-      label: "Pending",
+      label: "Disputed-Lost",
       date: "Friday May 1, 2022",
     },
     {
       id: 10,
       title: "iPhone 11 Green 64gb",
       subtitle: "Order #123456",
-      label: "Active",
+      label: "Disputed-Won",
       date: "Friday May 1, 2022",
     },
   ];
@@ -78,9 +78,7 @@ export default function OpenOrders() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <OpenItems
-            labelColor={
-              item.label === "Active" ? Colors.primary : Colors.pending
-            }
+            labelColor={Colors.danger}
             label={item.label}
             title={item.title}
             subTitle={item.subtitle}

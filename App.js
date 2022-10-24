@@ -25,7 +25,11 @@ import PayDetails from "./app/Screens/Cart_delivery/PayDetails";
 import AddCard from "./app/Screens/Cart_delivery/AddCard";
 import OrderComplete from "./app/Screens/Cart_delivery/OrderComplete";
 import OpenOrders from "./app/Screens/Orders/OpenOrders";
-
+import DisputedOrders from "./app/Screens/Orders/Disputed";
+import { NavigationContainer } from "@react-navigation/native";
+import TopBarNav from "./app/Navigation/TopBarNav";
+import NavTheme from "./app/Navigation/NavTheme";
+import OrderDetails from "./app/Screens/Orders/OrderDetails";
 export default function App() {
   const [fontsLoaded] = useFonts({
     "lato-regular": require("./app/assets/fonts/Lato-Regular.ttf"),
@@ -37,6 +41,11 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
+      <OrderDetails />
+      {/* <StatusBar style="dark" />
+      <NavigationContainer theme={NavTheme}>
+        <TopBarNav />
+      </NavigationContainer> */}
       {/* <Card /> */}
       {/* <MarketDetails /> */}
       {/* <Chat /> */}
@@ -47,7 +56,8 @@ export default function App() {
       {/* <PayDetails /> */}
       {/* <AddCard /> */}
       {/* <OtpCard /> */}
-      <OpenOrders />
+      {/* <OpenOrders /> */}
+      {/* <DisputedOrders /> */}
       {/* <OrderComplete /> */}
       {/* <ListingDetails /> */}
       {/* <Merchant /> */}
