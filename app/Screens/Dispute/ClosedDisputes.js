@@ -1,75 +1,84 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import OpenItems from "../../Components/OpenItems";
-import Screen from "../Screen";
+import DisputeItem from "../../Components/DisputeItem";
 import Colors from "../../Config/Colors";
 
-export default function DisputedOrders() {
+export default function ClosedDisputes() {
   const items = [
     {
       id: 2,
-      title: "iPhone 11 Green 64gb",
+      title: "Wrong Order",
       subtitle: "Order #123456",
-      label: "Disputed",
+      label: "Jane Doe",
       date: "Friday May 1, 2022",
+      details: "Won",
     },
     {
       id: 3,
-      title: "iPhone 11 Green 64gb",
+      title: "Wrong Order",
       subtitle: "Order #123456",
-      label: "Disputed-Lost",
+      label: "John Doe",
       date: "Friday May 1, 2022",
+      details: "Lost",
     },
     {
       id: 4,
-      title: "iPhone 11 Green 64gb",
+      title: "Wrong Order",
       subtitle: "Order #123456",
-      label: "Disputed-Won",
+      label: "Jane Doe",
       date: "Friday May 1, 2022",
+      details: "Lost",
     },
     {
       id: 5,
-      title: "iPhone 11 Green 64gb",
+      title: "Wrong Order",
       subtitle: "Order #123456",
-      label: "Disputed-Lost",
+      label: "John Doe",
       date: "Friday May 1, 2022",
+      details: "Won",
     },
     {
       id: 6,
-      title: "iPhone 11 Green 64gb",
+      title: "Wrong Order",
       subtitle: "Order #123456",
-      label: "Disputed-Won",
+      label: "Jane Doe",
       date: "Friday May 1, 2022",
+      details: "Lost",
     },
     {
       id: 7,
-      title: "iPhone 11 Green 64gb",
+      title: "Wrong Order",
       subtitle: "Order #123456",
-      label: "Disputed-Won",
+      label: "Jane Doe",
       date: "Friday May 1, 2022",
+      details: "Won",
     },
     {
       id: 8,
-      title: "iPhone 11 Green 64gb",
+      title: "Wrong Order",
       subtitle: "Order #123456",
-      label: "Disputed-Lost",
+      label: "John Doe",
       date: "Friday May 1, 2022",
+      details: "Lost",
     },
     {
       id: 9,
-      title: "iPhone 11 Green 64gb",
+      title: "Wrong Order",
       subtitle: "Order #123456",
-      label: "Disputed-Lost",
+      label: "John Doe",
       date: "Friday May 1, 2022",
+      details: "Won",
     },
     {
       id: 10,
-      title: "iPhone 11 Green 64gb",
+      title: "Wrong Order",
       subtitle: "Order #123456",
-      label: "Disputed-Won",
+      label: "Jane Doe",
       date: "Friday May 1, 2022",
+      details: "Won",
     },
   ];
+
   return (
     <View style={styles.list}>
       <FlatList
@@ -77,12 +86,13 @@ export default function DisputedOrders() {
         data={items}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <OpenItems
-            labelColor={Colors.danger}
-            label={item.label}
+          <DisputeItem
+            date={item.date}
             title={item.title}
             subTitle={item.subtitle}
-            date={item.date}
+            vendor={item.label}
+            details={item.details}
+            color={item.details === "Won" ? "primary" : "danger"}
           />
         )}
       />
@@ -92,7 +102,6 @@ export default function DisputedOrders() {
 
 const styles = StyleSheet.create({
   list: {
-    marginTop: 10,
     flex: 1,
     backgroundColor: Colors.light,
     paddingHorizontal: 10,

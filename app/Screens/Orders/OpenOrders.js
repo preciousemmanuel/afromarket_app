@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import OpenItems from "../../Components/OpenItems";
-import Screen from "../Screen";
 import Colors from "../../Config/Colors";
 
 export default function OpenOrders() {
@@ -97,6 +96,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flex: 1,
     backgroundColor: Colors.light,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
 });

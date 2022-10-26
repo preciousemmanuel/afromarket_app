@@ -1,15 +1,15 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import AppText from "./AppText";
 import Colors from "../Config/Colors";
 
-export default function ProductCard({ img, price, title }) {
+export default function ProductCard({ img, price, title, handlePress }) {
   const sort = (text) => {
     text.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   return (
-    <View style={styles.pcard}>
+    <TouchableOpacity style={styles.pcard} onPress={handlePress}>
       <Image source={img} style={styles.img} />
       <View>
         <AppText
@@ -27,7 +27,7 @@ export default function ProductCard({ img, price, title }) {
           style={{ fontWeight: "700", fontFamily: "dm-medium" }}
         />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

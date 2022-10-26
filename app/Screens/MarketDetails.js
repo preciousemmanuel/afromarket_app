@@ -1,12 +1,11 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import React from "react";
 import ProductCard from "../Components/ProductCard";
-import Screen from "./Screen";
 import Colors from "../Config/Colors";
 import { OutlineBtn } from "../Components/AppBtn";
 import AppText, { BoldText, MeidumText } from "../Components/AppText";
 import Card from "../Components/Card";
-export default function MarketDetails() {
+export default function MarketDetails({ navigation }) {
   const topProducts = [
     {
       id: 1,
@@ -58,7 +57,7 @@ export default function MarketDetails() {
   ];
 
   return (
-    <Screen>
+    <>
       <ScrollView style={styles.list}>
         <Card
           img={require("../assets/afroimage5.png")}
@@ -81,6 +80,7 @@ export default function MarketDetails() {
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <ProductCard
+                handlePress={() => navigation.navigate("productDetails")}
                 img={item.img}
                 price={item.price}
                 title={item.title}
@@ -121,19 +121,19 @@ export default function MarketDetails() {
         <OutlineBtn
           title="Contact Merchant"
           color={Colors.white}
-          style={{ backgroundColor: Colors.primary, width: "47%" }}
-          iconName="message-outline"
+          style={{ backgroundColor: Colors.primary, width: "49%" }}
+          iconFam="chatbox-ellipses-outline"
           iconColor={Colors.white}
         />
         <OutlineBtn
-          title="Contact Merchant"
+          title="Add to Customers"
           color={Colors.white}
           style={{ backgroundColor: Colors.primary, width: "49%" }}
-          iconName="star-outline"
+          icon="staro"
           iconColor={Colors.white}
         />
       </View>
-    </Screen>
+    </>
   );
 }
 

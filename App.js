@@ -1,35 +1,32 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
-import { OtpCard } from "./app/Screens/Cart_delivery/AddCard";
-import WelcomeScreen from "./app/Screens/WelcomeScreen";
-import Merchant from "./app/Screens/Merchant";
-import AppInput from "./app/Components/AppInput";
-import Login from "./app/Screens/Auth/Login";
-import Register from "./app/Screens/Auth/Register";
-import Details from "./app/Screens/Auth/Details";
-import Done from "./app/Screens/Done";
-import Onboarding from "./app/Screens/MerchantAccount/Onboarding";
-import RegBusiness from "./app/Screens/MerchantAccount/RegBusiness";
-import BusDoc, { BusImage } from "./app/Screens/MerchantAccount/BusDoc";
-import Card from "./app/Components/Card";
-import Markets from "./app/Screens/Markets";
-import MarketDetails from "./app/Screens/MarketDetails";
-import Chat from "./app/Screens/Chat";
-import ListingDetails from "./app/Screens/ListingDetails";
-import Cart from "./app/Screens/Cart_delivery/Cart";
-import DeliverAddress from "./app/Screens/Cart_delivery/DeliverAddress";
-import SelectAddress from "./app/Screens/Cart_delivery/SelectAddress";
-import NewAddress from "./app/Screens/Cart_delivery/NewAddress";
-import PayDetails from "./app/Screens/Cart_delivery/PayDetails";
-import AddCard from "./app/Screens/Cart_delivery/AddCard";
-import OrderComplete from "./app/Screens/Cart_delivery/OrderComplete";
-import OpenOrders from "./app/Screens/Orders/OpenOrders";
-import DisputedOrders from "./app/Screens/Orders/Disputed";
 import { NavigationContainer } from "@react-navigation/native";
-import TopBarNav from "./app/Navigation/TopBarNav";
 import NavTheme from "./app/Navigation/NavTheme";
+import ProductNav from "./app/Navigation/ProductNav";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import OrderNav from "./app/Navigation/OrderNav";
+import MarketNav from "./app/Navigation/MarketNav";
+import {
+  MaterialCommunityIcons,
+  SimpleLineIcons,
+  FontAwesome5,
+  Ionicons,
+} from "@expo/vector-icons";
+import OpenDispute from "./app/Screens/Dispute/OpenDispute";
+import ClosedDisputes from "./app/Screens/Dispute/ClosedDisputes";
+import DisputeNav from "./app/Navigation/DisputeNav";
 import OrderDetails from "./app/Screens/Orders/OrderDetails";
+import DisputeDetails from "./app/Screens/Dispute/DisputeDetails";
+import Notifications from "./app/Screens/Others/Notifications";
+import OtherServices from "./app/Screens/Others/OtherServices";
+import Messages from "./app/Screens/Messages";
+import Negotiations from "./app/Screens/Negotiations";
+import { NegotiationItem } from "./app/Components/MessageItem";
+import MessageNav from "./app/Navigation/MessagesNav";
+import Delivery from "./app/Screens/Delivery/Delivery";
+import RegBusiness from "./app/Screens/MerchantAccount/RegBusiness";
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     "lato-regular": require("./app/assets/fonts/Lato-Regular.ttf"),
@@ -38,35 +35,74 @@ export default function App() {
     "dm-medium": require("./app/assets/fonts/DMSans-Medium.ttf"),
   });
   if (!fontsLoaded) return null;
+
+  const Tab = createBottomTabNavigator();
   return (
     <>
       <StatusBar style="dark" />
-      <OrderDetails />
-      {/* <StatusBar style="dark" />
-      <NavigationContainer theme={NavTheme}>
-        <TopBarNav />
+      {/* <Delivery /> */}
+      <RegBusiness />
+
+      {/* <OrderDetails /> */}
+      {/* <DisputeDetails /> */}
+      {/* <Notifications /> */}
+      {/* <OtherServices /> */}
+      {/* <Messages /> */}
+      {/* <Negotiations /> */}
+      {/* <NegotiationItem /> */}
+      {/* <NavigationContainer theme={NavTheme}>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
+          <Tab.Screen
+            name="Markets"
+            component={MarketNav}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="home-city"
+                  color={color}
+                  size={size}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Orders"
+            component={OrderNav}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="cart" color={color} size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Products"
+            component={ProductNav}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="shopping-bag" color={color} size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Disputes"
+            component={DisputeNav}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="shopping-bag" color={color} size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Chat"
+            component={MessageNav}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="shopping-bag" color={color} size={size} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
       </NavigationContainer> */}
-      {/* <Card /> */}
-      {/* <MarketDetails /> */}
-      {/* <Chat /> */}
-      {/* <Cart /> */}
-      {/* <DeliverAddress /> */}
-      {/* <SelectAddress /> */}
-      {/* <NewAddress /> */}
-      {/* <PayDetails /> */}
-      {/* <AddCard /> */}
-      {/* <OtpCard /> */}
-      {/* <OpenOrders /> */}
-      {/* <DisputedOrders /> */}
-      {/* <OrderComplete /> */}
-      {/* <ListingDetails /> */}
-      {/* <Merchant /> */}
-      {/* <Register /> */}
-      {/* <RegBusiness /> */}
-      {/* <Done /> */}
-      {/* <WelcomeScreen /> */}
-      {/* <Details /> */}
-      {/* <Login /> */}
     </>
   );
 }

@@ -13,7 +13,7 @@ export default function Card({ title, address, img, style, imgStyle }) {
         <Image source={img} style={[styles.img, imgStyle]} resizeMode="cover" />
       </View>
       <View style={styles.txtContainer}>
-        <MeidumText text="Mr Gadgets" />
+        <MeidumText text="Mr Gadgets" style={{ fontSize: 24 }} />
         <View
           style={{
             flexDirection: "row",
@@ -22,7 +22,7 @@ export default function Card({ title, address, img, style, imgStyle }) {
           }}
         >
           <Feather name="map-pin" size={20} color={Colors.black} />
-          <AppText text="9,Ebinipenjo Lane, Idumota, Lagos" />
+          <AppText text=" 9,Ebinipenjo Lane, Idumota, Lagos" />
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <AntDesign name="staro" size={20} color={Colors.black} />

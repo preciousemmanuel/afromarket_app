@@ -1,6 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  MaterialCommunityIcons,
+  Ionicons,
+  SimpleLineIcons,
+  Feather,
+  AntDesign,
+} from "@expo/vector-icons";
 import Colors from "../Config/Colors";
 import AppText from "./AppText";
 
@@ -27,6 +33,9 @@ export const OutlineBtn = ({
   style,
   iconName,
   iconColor,
+  iconFam,
+  icon,
+  feather,
 }) => {
   return (
     <TouchableOpacity
@@ -41,8 +50,12 @@ export const OutlineBtn = ({
       onPress={handlePress}
     >
       {iconName && (
-        <MaterialCommunityIcons name={iconName} size={28} color={iconColor} />
+        <MaterialCommunityIcons name={iconName} size={25} color={iconColor} />
       )}
+      {iconFam && <Ionicons name={iconFam} size={25} color={iconColor} />}
+      {icon && <AntDesign name={icon} size={25} color={iconColor} />}
+      {feather && <Feather name={feather} size={25} color={iconColor} />}
+
       <AppText
         text={title}
         style={[styles.text, { color, fontWeight: "200", marginLeft: 6 }]}

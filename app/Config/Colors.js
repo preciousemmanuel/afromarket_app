@@ -1,4 +1,6 @@
 export default {
+  star: "#BDAB03",
+
   danger: "#C30000",
   pending: "#7B61FF",
   primary: "#04AF00",

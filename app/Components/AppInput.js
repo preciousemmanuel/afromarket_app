@@ -11,7 +11,7 @@ export default function AppInput({
   const [focus, setFocus] = useState(false);
 
   const changeBlur = () => {
-    handleBlur;
+    handleBlur();
     setFocus(false);
   };
   return (

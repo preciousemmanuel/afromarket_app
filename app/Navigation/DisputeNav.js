@@ -1,47 +1,40 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import OpenOrders from "../Screens/Orders/OpenOrders";
-import CloseOrders from "../Screens/Orders/CloseOrders";
-import DisputedOrders from "../Screens/Orders/Disputed";
 import Screen from "../Screens/Screen";
 import Colors from "../Config/Colors";
-export default function TopBarNav() {
+import OpenDispute from "../Screens/Dispute/OpenDispute";
+import ClosedDisputes from "../Screens/Dispute/ClosedDisputes";
+export default function DisputeNav() {
   const Tab = createMaterialTopTabNavigator();
   return (
     <Screen>
       <Tab.Navigator
         screenOptions={{
           tabBarLabelStyle: {
-            fontSize: 20,
-            fontWeight: "700",
+            fontSize: 17,
+            fontWeight: "400",
             textTransform: "capitalize",
             fontFamily: "lato-bold",
           },
         }}
       >
         <Tab.Screen
-          name="open"
-          component={OpenOrders}
+          name="Active"
+          component={OpenDispute}
           options={{
             tabBarInactiveTintColor: Colors.dark_light,
             tabBarActiveTintColor: Colors.primary,
+            tabBarLabel: "Active disputes",
           }}
         />
         <Tab.Screen
           name="Close"
-          component={CloseOrders}
+          component={ClosedDisputes}
           options={{
             tabBarInactiveTintColor: Colors.dark_light,
             tabBarActiveTintColor: Colors.primary,
-          }}
-        />
-        <Tab.Screen
-          name="Dispute"
-          component={DisputedOrders}
-          options={{
-            tabBarInactiveTintColor: Colors.dark_light,
-            tabBarActiveTintColor: Colors.primary,
+            tabBarLabel: "Closed disputes",
           }}
         />
       </Tab.Navigator>

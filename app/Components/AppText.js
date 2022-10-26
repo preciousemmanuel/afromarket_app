@@ -2,10 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Colors from "../Config/Colors";
 
-export default function AppText({ text, style }) {
+export default function AppText({ text, style, txtStyle, number = 4 }) {
   return (
-    <View>
-      <Text numberOfLines={2} style={[styles.regular, style]}>
+    <View style={[{ flexDirection: "column" }, txtStyle]}>
+      <Text numberOfLines={number} style={[styles.regular, style]}>
         {text}
       </Text>
     </View>
@@ -31,8 +31,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     fontFamily: "lato-regular",
-    lineHeight: 19,
+    lineHeight: 22,
     color: Colors.black,
+    // flexShrink: 1,
+    flexWrap: "wrap",
   },
   bold: {
     fontSize: 45,

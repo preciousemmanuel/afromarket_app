@@ -36,8 +36,8 @@ export default function Login() {
             </TouchableOpacity>
           </View>
           <View style={styles.btnContainer}>
-            <AppBtn title="Login" color="green" style={styles.btn} />
-            <OutlineBtn title="Continue with Google" icon />
+            <AppBtn title="Login" color={Colors.primary} style={styles.btn} />
+            <OutlineBtn title="Continue with Google" iconName="google" />
           </View>
         </View>
         <View style={styles.footer}>
@@ -77,10 +77,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     bottom: -150,
+    marginBottom: 90,
   },
   footer: {
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    bottom: -20,
+    // position: "absolute",
   },
 });

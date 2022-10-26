@@ -1,18 +1,28 @@
 import {
+  Image,
+  Modal,
   ScrollView,
   StyleSheet,
   TouchableHighlight,
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Colors from "../../Config/Colors";
 import { Items } from "../../Components/OpenItems";
 import Screen from "../Screen";
 import AppText, { MeidumText } from "../../Components/AppText";
-import { SimpleLineIcons, Ionicons } from "@expo/vector-icons";
+import {
+  Feather,
+  SimpleLineIcons,
+  Ionicons,
+  Fontisto,
+} from "@expo/vector-icons";
 import AppBtn, { OutlineBtn } from "../../Components/AppBtn";
+import AppInput from "../../Components/AppInput";
 export default function OrderDetails() {
+  const [visible, setVisible] = useState(false);
+  const [visibleTwo, setVisibleTwo] = useState(false);
   return (
     <Screen>
       <View style={styles.top}>
@@ -142,6 +152,44 @@ export default function OrderDetails() {
             />
           </View>
         </View>
+        <View style={styles.rider}>
+          <Image
+            style={styles.riderImg}
+            source={require("../../assets/rider.jpg")}
+          />
+          <MeidumText
+            text="Emeka Anyawu"
+            style={{ fontSize: 18, padding: 10 }}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <View style={styles.riderInfo}>
+              <Ionicons name="md-cube-outline" size={25} />
+              <AppText text="35 deliveries" style={{ padding: 8 }} />
+            </View>
+            <View style={styles.riderInfo}>
+              <Fontisto name="star" size={25} color={Colors.star} />
+              <AppText text="4/5" style={{ padding: 8 }} />
+            </View>
+          </View>
+        </View>
+        <View style={{ marginTop: 30 }}>
+          <OutlineBtn
+            title="Contact Dispatch Rider"
+            color={Colors.white}
+            style={{ backgroundColor: Colors.primary }}
+          />
+          <OutlineBtn
+            handlePress={() => setVisible((prevState) => !prevState)}
+            title="Contact buyer"
+            color={Colors.white}
+            style={{ backgroundColor: Colors.primary }}
+          />
+        </View>
         <View style={{ marginTop: 30 }}>
           <AppBtn title="Contact Merchant" color={Colors.primary} />
           <OutlineBtn
@@ -150,13 +198,91 @@ export default function OrderDetails() {
             style={{ borderColor: Colors.danger }}
           />
           <OutlineBtn
+            handlePress={() => setVisible((prevState) => !prevState)}
             title="Cancel Order"
             color={Colors.danger}
             style={{ borderColor: Colors.danger }}
           />
         </View>
-        <View style={{ padding: 120 }} />
+
+        <View style={{ padding: 30 }} />
       </ScrollView>
+      <Modal visible={visible} transparent>
+        <View style={styles.modal}>
+          <View style={styles.top2}>
+            <View />
+            <AppText
+              text="Cancel Order"
+              style={{ fontWeight: "700", textAlign: "center" }}
+            />
+            <Feather
+              name="x-circle"
+              size={20}
+              onPress={() => setVisible((prevState) => !prevState)}
+            />
+          </View>
+          <AppText
+            text="Cancelling this order cannot be undone"
+            style={{ fontWeight: "600", textAlign: "center" }}
+          />
+          <AppText text="Are you Sure? " style={{ textAlign: "center" }} />
+          <View
+            style={{
+              position: "absolute",
+              bottom: 20,
+              left: 20,
+              width: "100%",
+            }}
+          >
+            <AppBtn
+              handlePress={() => setVisible(false)}
+              title="Go back"
+              color={Colors.primary}
+              style={{ marginTop: 20 }}
+            />
+            <OutlineBtn
+              handlePress={() => {
+                setVisible(false);
+                setVisibleTwo(true);
+              }}
+              title="Yes, Cancel order"
+              color={Colors.danger}
+              style={{ borderColor: Colors.danger }}
+            />
+          </View>
+        </View>
+      </Modal>
+      <Modal visible={visibleTwo} transparent>
+        <View style={[styles.modal, { height: "50%" }]}>
+          <View style={styles.top2}>
+            <View />
+            <AppText
+              text="Cancel Order"
+              style={{ fontWeight: "700", textAlign: "center" }}
+            />
+            <Feather
+              name="x-circle"
+              size={20}
+              onPress={() => setVisibleTwo((prevState) => !prevState)}
+            />
+          </View>
+
+          <AppText
+            text="Order Successfully cancelled"
+            style={{ textAlign: "center", marginTop: -20 }}
+          />
+          <AppInput placeholder="Reason for cancelling" numberOfLines={6} />
+          <AppBtn
+            title="Continue"
+            color={Colors.primary}
+            style={{
+              position: "absolute",
+              bottom: 20,
+              left: 20,
+            }}
+          />
+        </View>
+      </Modal>
     </Screen>
   );
 }
@@ -177,7 +303,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   details: {
-    // height: "100%",
     paddingVertical: 20,
     paddingHorizontal: 10,
     flex: 1,
@@ -217,5 +342,38 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     paddingVertical: 10,
+  },
+  top2: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 40,
+  },
+  modal: {
+    elevation: 40,
+    width: "100%",
+    height: "40%",
+    backgroundColor: Colors.white,
+    bottom: 0,
+    position: "absolute",
+    padding: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
+  rider: {
+    backgroundColor: Colors.white,
+    marginTop: 40,
+    paddingVertical: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  riderImg: {
+    borderRadius: 45,
+    width: 100,
+    height: 100,
+  },
+  riderInfo: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });

@@ -49,6 +49,27 @@ export function Items({ title, subTitle, date, label, labelColor }) {
     </View>
   );
 }
+export function ProductItems({ title, subTitle, label, style, img }) {
+  return (
+    <View style={[styles.item, { height: 100 }, style]}>
+      {img && (
+        <Image source={require("../assets/image5.jpg")} style={styles.img} />
+      )}
+      <View style={styles.txtCont}>
+        {/* <View> */}
+        <MeidumText text={title} style={{ fontSize: 19 }} />
+        {label && <AppText text={label} />}
+        {/* </View> */}
+
+        <MeidumText
+          text={subTitle}
+          style={{ fontSize: 19, color: Colors.primary }}
+        />
+        {/* <AppText text={date} style={{ fontSize: 14 }} /> */}
+      </View>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   label: {

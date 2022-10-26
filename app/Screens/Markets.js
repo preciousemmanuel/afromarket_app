@@ -1,4 +1,11 @@
-import { FlatList, Modal, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import Card from "../Components/Card";
 import Screen from "./Screen";
@@ -8,8 +15,8 @@ import AppText, { MeidumText } from "../Components/AppText";
 import CheckBox from "../Components/CheckBox";
 import { Feather } from "@expo/vector-icons";
 import AppBtn, { OutlineBtn } from "../Components/AppBtn";
-export default function Markets() {
-  const [visible, setVisible] = useState(true);
+export default function Markets({ navigation }) {
+  const [visible, setVisible] = useState(false);
   const datas = [
     {
       id: 1,
@@ -35,7 +42,7 @@ export default function Markets() {
         <View style={styles.search}>
           <AppInput
             iconName="ios-search-outline"
-            style={{ backgroundColor: "#dbdbdb" }}
+            style={{ backgroundColor: Colors.light }}
             placeholder="Search here"
           />
         </View>
@@ -44,7 +51,14 @@ export default function Markets() {
           showsVerticalScrollIndicator={false}
           data={datas}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <Card img={item.img} />}
+          renderItem={({ item }) => (
+            <TouchableHighlight
+              underlayColor={Colors.white}
+              onPress={() => navigation.navigate("marketDetails")}
+            >
+              <Card img={item.img} />
+            </TouchableHighlight>
+          )}
         />
         <Modal visible={visible} transparent>
           <View style={styles.filter}>
@@ -94,7 +108,7 @@ export default function Markets() {
 
 const styles = StyleSheet.create({
   list: {
-    backgroundColor: Colors.medium,
+    backgroundColor: Colors.light,
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 10,
@@ -112,11 +126,14 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   filter: {
+    elevation: 30,
+    position: "absolute",
     width: "100%",
     height: "80%",
     backgroundColor: Colors.white,
-    bottom: -150,
+    bottom: 0,
     padding: 20,
-    borderRadius: 30,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
 });

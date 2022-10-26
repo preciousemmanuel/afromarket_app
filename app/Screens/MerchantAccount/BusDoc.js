@@ -12,41 +12,52 @@ import AppBtn, { OutlineBtn } from "../../Components/AppBtn";
 import Line from "../../Components/Line";
 import Colors from "../../Config/Colors";
 import { Ionicons } from "@expo/vector-icons";
-export default function BusDoc({ handleNextStep, handlePrevStep }) {
+import { Formik } from "formik";
+
+export default function BusDoc({ handleNextStep, handlePrevStep, data }) {
+  const handleSubmit = (values) => {
+    handleNextStep(values);
+  };
   return (
     <Screen>
-      <ScrollView style={{ flex: 1, height: "100%" }}>
-        <View style={styles.container}>
-          <MeidumText text="Upload a business" />
-          <MeidumText text="document" />
-          <Line start={0} stop={0.8} style={{ width: "100%" }} />
-          <AppText text="Business Document" />
-          <TouchableOpacity>
-            <View style={styles.docInput}>
-              <Ionicons
-                name="document-text-outline"
-                size={28}
-                color={Colors.dark}
+      <Formik initialValues={data} onSubmit={handleSubmit}>
+        {({ values }) => (
+          <>
+            <ScrollView style={{ flex: 1, height: "100%" }}>
+              <View style={styles.container}>
+                <MeidumText text="Upload a business" />
+                <MeidumText text="document" />
+                <Line start={0} stop={0.8} style={{ width: "100%" }} />
+                <AppText text="Business Document" />
+                <TouchableOpacity>
+                  <View style={styles.docInput}>
+                    <Ionicons
+                      name="document-text-outline"
+                      size={28}
+                      color={Colors.dark}
+                    />
+                    <AppText text="Upload CAC document" />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+            <View style={styles.footer}>
+              <OutlineBtn
+                handlePress={() => handlePrevStep(values)}
+                title="Back"
+                style={{ width: "50%" }}
+                color={Colors.primary}
               />
-              <AppText text="Upload CAC document" />
+              <AppBtn
+                handlePress={handleNextStep}
+                title="Next"
+                color="green"
+                style={{ width: "50%", marginLeft: 10 }}
+              />
             </View>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-      <View style={styles.footer}>
-        <OutlineBtn
-          handlePress={handlePrevStep}
-          title="Back"
-          style={{ width: "50%" }}
-          color={Colors.primary}
-        />
-        <AppBtn
-          handlePress={handleNextStep}
-          title="Next"
-          color="green"
-          style={{ width: "50%", marginLeft: 10 }}
-        />
-      </View>
+          </>
+        )}
+      </Formik>
     </Screen>
   );
 }

@@ -19,7 +19,7 @@ export default function Register() {
           <AppInput placeholder="Confirm password" />
         </View>
         <View style={styles.footer}>
-          <AppBtn title="Continue" color="green" style={styles.btn} />
+          <AppBtn title="Continue" color={Colors.primary} style={styles.btn} />
           <AppText
             text="Already have an account?"
             style={{ fontSize: 18, marginBottom: 6 }}
