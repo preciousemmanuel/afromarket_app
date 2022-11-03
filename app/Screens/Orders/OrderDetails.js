@@ -20,7 +20,7 @@ import {
 } from "@expo/vector-icons";
 import AppBtn, { OutlineBtn } from "../../Components/AppBtn";
 import AppInput from "../../Components/AppInput";
-export default function OrderDetails() {
+export default function OrderDetails({ navigation }) {
   const [visible, setVisible] = useState(false);
   const [visibleTwo, setVisibleTwo] = useState(false);
   return (
@@ -28,7 +28,7 @@ export default function OrderDetails() {
       <View style={styles.top}>
         <TouchableHighlight
           underlayColor={Colors.light}
-          onPress={() => console.log("first")}
+          onPress={() => navigation.goBack()}
           style={{ padding: 15, borderRadius: 25 }}
         >
           <SimpleLineIcons name="arrow-left" color={Colors.black} size={20} />

@@ -83,7 +83,7 @@ export default function OtherServices() {
     },
   ];
   return (
-    <Screen>
+    <>
       <ScrollView style={styles.main}>
         {Services.map((s) => (
           <OutlineBtn
@@ -94,7 +94,7 @@ export default function OtherServices() {
           />
         ))}
       </ScrollView>
-    </Screen>
+    </>
   );
 }
 

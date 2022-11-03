@@ -4,10 +4,10 @@
     "slug": "Afromarket",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/AfromarketLogo2.png",
+    "icon": "./app/assets/AfrosmallLogo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./app/assets/Splash.jpg",
+      "image": "./app/assets/Splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.dev_eddy.Afromarket"
     },
     "web": {
       "favicon": "./assets/favicon.png"

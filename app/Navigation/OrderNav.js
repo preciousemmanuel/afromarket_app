@@ -6,10 +6,19 @@ import CloseOrders from "../Screens/Orders/CloseOrders";
 import DisputedOrders from "../Screens/Orders/Disputed";
 import Screen from "../Screens/Screen";
 import Colors from "../Config/Colors";
-export default function OrderNav() {
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import OrderDetails from "../Screens/Orders/OrderDetails";
+import { createStackNavigator } from "@react-navigation/stack";
+export default function OrderNav({ navigation }) {
   const Tab = createMaterialTopTabNavigator();
   return (
     <Screen>
+      <MaterialCommunityIcons
+        name="menu"
+        size={30}
+        style={{ margin: 10 }}
+        onPress={() => navigation.openDrawer()}
+      />
       <Tab.Navigator
         screenOptions={{
           tabBarLabelStyle: {
@@ -48,5 +57,16 @@ export default function OrderNav() {
     </Screen>
   );
 }
+
+export const OrdersNav = () => {
+  const Stack = createStackNavigator();
+
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="orderses" component={OrderNav} />
+      <Stack.Screen name="orderDetails" component={OrderDetails} />
+    </Stack.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({});

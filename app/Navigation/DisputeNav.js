@@ -5,10 +5,13 @@ import Screen from "../Screens/Screen";
 import Colors from "../Config/Colors";
 import OpenDispute from "../Screens/Dispute/OpenDispute";
 import ClosedDisputes from "../Screens/Dispute/ClosedDisputes";
+import { createStackNavigator } from "@react-navigation/stack";
+import { StackActions } from "@react-navigation/native";
+import DisputeDetails from "../Screens/Dispute/DisputeDetails";
 export default function DisputeNav() {
   const Tab = createMaterialTopTabNavigator();
   return (
-    <Screen>
+    <>
       <Tab.Navigator
         screenOptions={{
           tabBarLabelStyle: {
@@ -38,8 +41,19 @@ export default function DisputeNav() {
           }}
         />
       </Tab.Navigator>
-    </Screen>
+    </>
   );
 }
+
+export const DisputesNav = () => {
+  const Stack = createStackNavigator();
+
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="disputes" component={DisputeNav} />
+      <Stack.Screen name="disputeDetails" component={DisputeDetails} />
+    </Stack.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({});

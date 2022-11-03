@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./styles.css";
+// import "./styles.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import AppFormField from "../../Components/Forms/AppFormField";
@@ -7,7 +7,7 @@ import AppBtn from "../../Components/AppBtn";
 import SubmitButton from "../../Components/Submit";
 import Screen from "../Screen";
 
-export default function App() {
+export default function FormTest() {
   const [data, setData] = useState({
     first_name: "",
     last_name: "",
@@ -58,18 +58,19 @@ const StepOne = (props) => {
 
   return (
     <Formik
+      enableReinitialize={false}
       validationSchema={stepOneValidationSchema}
       initialValues={props.data}
       onSubmit={handleSubmit}
     >
       {() => (
-        <Form>
+        <>
           <AppFormField name="first_name" />
 
           <AppFormField name="last_name" />
 
           <SubmitButton title="Next" />
-        </Form>
+        </>
       )}
     </Formik>
   );
@@ -87,18 +88,19 @@ const StepTwo = (props) => {
 
   return (
     <Formik
+      enableReinitialize={false}
       validationSchema={stepTwoValidationSchema}
       initialValues={props.data}
       onSubmit={handleSubmit}
     >
       {({ values }) => (
-        <Form>
+        <>
           <AppFormField name="email" />
           <AppFormField name="password" />
 
-          <AppBtn onClichad={() => props.prev(values)}>Back</AppBtn>
+          <AppBtn handlePress={() => props.prev(values)} title="Back" />
           <SubmitButton title="Next" />
-        </Form>
+        </>
       )}
     </Formik>
   );

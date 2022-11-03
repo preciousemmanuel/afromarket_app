@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
@@ -7,25 +8,19 @@ import ProductNav from "./app/Navigation/ProductNav";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import OrderNav from "./app/Navigation/OrderNav";
 import MarketNav from "./app/Navigation/MarketNav";
+import Colors from "./app/Config/Colors";
 import {
   MaterialCommunityIcons,
   SimpleLineIcons,
   FontAwesome5,
   Ionicons,
 } from "@expo/vector-icons";
-import OpenDispute from "./app/Screens/Dispute/OpenDispute";
-import ClosedDisputes from "./app/Screens/Dispute/ClosedDisputes";
-import DisputeNav from "./app/Navigation/DisputeNav";
-import OrderDetails from "./app/Screens/Orders/OrderDetails";
-import DisputeDetails from "./app/Screens/Dispute/DisputeDetails";
-import Notifications from "./app/Screens/Others/Notifications";
-import OtherServices from "./app/Screens/Others/OtherServices";
-import Messages from "./app/Screens/Messages";
-import Negotiations from "./app/Screens/Negotiations";
-import { NegotiationItem } from "./app/Components/MessageItem";
-import MessageNav from "./app/Navigation/MessagesNav";
-import Delivery from "./app/Screens/Delivery/Delivery";
+import { createStackNavigator } from "@react-navigation/stack";
 import RegBusiness from "./app/Screens/MerchantAccount/RegBusiness";
+import DrawerNav from "./app/Navigation/DrawerNav";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import BottomNav from "./app/Navigation/BottomNav";
+import WelcomeNav from "./app/Navigation/WelcomeNav";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -37,72 +32,17 @@ export default function App() {
   if (!fontsLoaded) return null;
 
   const Tab = createBottomTabNavigator();
+  const Stack = createStackNavigator();
   return (
     <>
       <StatusBar style="dark" />
-      {/* <Delivery /> */}
-      <RegBusiness />
-
-      {/* <OrderDetails /> */}
-      {/* <DisputeDetails /> */}
-      {/* <Notifications /> */}
-      {/* <OtherServices /> */}
-      {/* <Messages /> */}
-      {/* <Negotiations /> */}
-      {/* <NegotiationItem /> */}
-      {/* <NavigationContainer theme={NavTheme}>
-        <Tab.Navigator screenOptions={{ headerShown: false }}>
-          <Tab.Screen
-            name="Markets"
-            component={MarketNav}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="home-city"
-                  color={color}
-                  size={size}
-                />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Orders"
-            component={OrderNav}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="cart" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Products"
-            component={ProductNav}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <FontAwesome5 name="shopping-bag" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Disputes"
-            component={DisputeNav}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <FontAwesome5 name="shopping-bag" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Chat"
-            component={MessageNav}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <FontAwesome5 name="shopping-bag" color={color} size={size} />
-              ),
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer> */}
+      {/* <RegBusiness /> */}
+      <NavigationContainer theme={NavTheme}>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="welcoming" component={WelcomeNav} />
+          <Stack.Screen name="appNav" component={DrawerNav} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </>
   );
 }

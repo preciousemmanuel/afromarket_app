@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+} from "react-native";
 import React from "react";
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -6,10 +13,12 @@ import Screen from "../Screen";
 import Line from "../../Components/Line";
 import AppText, { BoldText } from "../../Components/AppText";
 import AppBtn from "../../Components/AppBtn";
+import Colors from "../../Config/Colors";
 
-export default function Onboarding() {
+const { width, height } = Dimensions.get("window");
+export default function Onboarding({ handleNextStep }) {
   return (
-    <Screen>
+    <View style={styles.main}>
       <Image
         source={require("../../assets/afroimage4.png")}
         resizeMode="cover"
@@ -17,7 +26,7 @@ export default function Onboarding() {
         style={styles.img}
       />
       <LinearGradient
-        colors={["#dbd", "#d7d6d6", "#f8faf9"]}
+        colors={["#a9a9a9", "#fff", "#f8faf9"]}
         locations={[0, 0.1, 0]}
         style={styles.txtContainer}
       >
@@ -31,21 +40,31 @@ export default function Onboarding() {
         </View>
       </LinearGradient>
       <View style={styles.btnContainer}>
-        <AppBtn title="Next" color="green" style={styles.btn} />
+        <AppBtn
+          title="Next"
+          color={Colors.primary}
+          style={styles.btn}
+          handlePress={handleNextStep}
+        />
       </View>
-    </Screen>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    height: height,
+  },
   img: {
     width: "100%",
-    height: 380,
+    height: "50%",
   },
   txtContainer: {
     marginTop: -30,
     height: 450,
     width: "100%",
+    opacity: 0.9,
   },
   btn: {
     position: "absolute",

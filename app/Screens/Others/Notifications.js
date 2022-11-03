@@ -66,7 +66,7 @@ export default function Notifications() {
     },
   ];
   return (
-    <Screen>
+    <>
       <View style={styles.main}>
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -81,12 +81,13 @@ export default function Notifications() {
           )}
         />
       </View>
-    </Screen>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   main: {
+    paddingTop: 10,
     paddingHorizontal: 15,
     flex: 1,
     backgroundColor: Colors.light,

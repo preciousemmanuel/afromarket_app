@@ -1,29 +1,26 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import Screen from "../Screen";
 import AppText, { MeidumText } from "../../Components/AppText";
-import AppInput from "../../Components/AppInput";
-import AppBtn from "../../Components/AppBtn";
 import Line from "../../Components/Line";
 import BusDoc, { BusImage } from "./BusDoc";
-// import AppFormField from "../../Components/Forms/AppFormField";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
 import AppFormField from "../../Components/Forms/AppFormField";
 import Colors from "../../Config/Colors";
 import SubmitButton from "../../Components/Submit";
+import AppFormPicker from "../../Components/AppFormPicker";
+import Onboarding from "./Onboarding";
+import { useNavigation } from "@react-navigation/native";
 
 const validationSchema = Yup.object().shape({
   businessName: Yup.string().required().min(1).label("Business Name"),
   businessType: Yup.string().required().min(1).label("Type"),
-  businessDescription: Yup.string().required().min(1).label("Description"),
+  businessDescription: Yup.string()
+    .required()
+    .min(10)
+    .label("Business Description"),
   bvn: Yup.number().required().min(10).label("BVN"),
   tin: Yup.number().required().min(10).label("TIN"),
   country: Yup.string().required().min(1).label("Country"),
@@ -35,7 +32,66 @@ export function BusinessData({ handleNextStep, data }) {
   const handleSubmit = (values) => {
     handleNextStep(values);
   };
-
+  const items = [
+    {
+      id: 1,
+      label: "LAgoos",
+    },
+    {
+      id: 2,
+      label: "INDIA",
+    },
+    {
+      id: 3,
+      label: "UK",
+    },
+    {
+      id: 4,
+      label: "Nigeria",
+    },
+    {
+      id: 5,
+      label: "USA",
+    },
+    {
+      id: 6,
+      label: "LAgoos",
+    },
+    {
+      id: 7,
+      label: "INDIA",
+    },
+    {
+      id: 8,
+      label: "UK",
+    },
+    {
+      id: 9,
+      label: "Nigeria",
+    },
+    {
+      id: 10,
+      label: "USA",
+    },
+  ];
+  const business = [
+    {
+      id: 1,
+      label: "Trader",
+    },
+    {
+      id: 2,
+      label: "Gadget",
+    },
+    {
+      id: 3,
+      label: "Car dealer",
+    },
+    {
+      id: 4,
+      label: "Airtime Distributor",
+    },
+  ];
   return (
     <Screen>
       <Formik
@@ -51,7 +107,12 @@ export function BusinessData({ handleNextStep, data }) {
             <AppText text="Business Details" />
             <View style={styles.form}>
               <AppFormField name="businessName" placeholder="Business Name" />
-              <AppFormField name="businessType" placeholder="Business Type" />
+              <AppFormPicker
+                items={business}
+                style={{ height: 55 }}
+                name="businessType"
+                placeholder="Business Type"
+              />
               <AppFormField
                 name="businessDescription"
                 placeholder="Business Description"
@@ -72,10 +133,27 @@ export function BusinessData({ handleNextStep, data }) {
               <AppText text="Business Address" />
               <AppFormField name="country" placeholder="Country" />
               <AppFormField name="street" placeholder="Street Address" />
-
-              <AppFormField name="city" placeholder="City" />
-              <AppFormField name="state" placeholder="State" />
-
+              <View
+                style={{
+                  width: "100%",
+                  flex: 1,
+                  marginRight: "auto",
+                  marginLeft: "auto",
+                }}
+              >
+                <AppFormPicker
+                  name="city"
+                  items={items}
+                  placeholder="City"
+                  style={{ height: 55 }}
+                />
+                <AppFormPicker
+                  name="state"
+                  items={items}
+                  placeholder="State"
+                  style={{ height: 55 }}
+                />
+              </View>
               <View style={{ padding: 10 }} />
             </View>
           </View>
@@ -94,6 +172,7 @@ export function BusinessData({ handleNextStep, data }) {
 }
 
 export default function RegBusiness() {
+  const navigation = useNavigation();
   const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState({
     businessName: "",
@@ -104,18 +183,24 @@ export default function RegBusiness() {
     country: "",
     state: "",
     city: "",
+    busdoc: null,
+    busImg: "",
   });
   const makeRequest = (formData) => {
     console.log("Form Submitted", formData);
+    navigation.navigate("appNav");
   };
-  const handleNext = (newData, final = false) => {
+  const handleNext = (newData) => {
     setData((prev) => ({ ...prev, ...newData }));
 
-    if (final) {
+    if (currentStep >= steps.length - 1) {
       makeRequest(newData);
       return;
     }
 
+    setCurrentStep((prev) => prev + 1);
+  };
+  const handleNextS = () => {
     setCurrentStep((prev) => prev + 1);
   };
 
@@ -123,17 +208,9 @@ export default function RegBusiness() {
     setData((prev) => ({ ...prev, ...newData }));
     setCurrentStep((prev) => prev - 1);
   };
-  // const handleNext = (values) => {
-  //   setData((prevState) => ({ ...values, ...prevState }));
-  //   if (currentStep < steps.length - 1)
-  //     setCurrentStep((prevState) => prevState + 1);
-  // };
-  // const handlePrev = (values) => {
-  //   console.log(values, "from");
-  //   setData((prevState) => ({ ...values, ...prevState }));
-  //   setCurrentStep((prevState) => prevState - 1);
-  // };
+
   const steps = [
+    <Onboarding handleNextStep={handleNextS} />,
     <BusinessData handleNextStep={handleNext} data={data} />,
     <BusDoc
       handleNextStep={handleNext}
@@ -146,17 +223,10 @@ export default function RegBusiness() {
       data={data}
     />,
   ];
-  return <Screen>{steps[currentStep]}</Screen>;
+  return <>{steps[currentStep]}</>;
 }
 
 const styles = StyleSheet.create({
-  // name: {
-  //   flex: 1,
-  //   width: "100%",
-  //   flexDirection: "row",
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
   container: {
     mtop: 500,
     width: "100%",

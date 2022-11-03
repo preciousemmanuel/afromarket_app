@@ -1,9 +1,15 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import DisputeItem from "../../Components/DisputeItem";
 import Colors from "../../Config/Colors";
 
-export default function OpenDispute() {
+export default function OpenDispute({ navigation }) {
   const items = [
     {
       id: 2,
@@ -77,12 +83,16 @@ export default function OpenDispute() {
         data={items}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <DisputeItem
-            date={item.date}
-            title={item.title}
-            subTitle={item.subtitle}
-            vendor={item.label}
-          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("disputeDetails")}
+          >
+            <DisputeItem
+              date={item.date}
+              title={item.title}
+              subTitle={item.subtitle}
+              vendor={item.label}
+            />
+          </TouchableOpacity>
         )}
       />
     </View>

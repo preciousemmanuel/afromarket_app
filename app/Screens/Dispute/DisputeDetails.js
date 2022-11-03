@@ -1,20 +1,33 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import Colors from "../../Config/Colors";
 import { Items, ProductItems } from "../../Components/OpenItems";
 import { OutlineBtn } from "../../Components/AppBtn";
 import AppText, { MeidumText } from "../../Components/AppText";
 
-export default function DisputeDetails() {
+export default function DisputeDetails({ navigation }) {
   return (
-    <View style={styles.main}>
+    <ScrollView style={styles.main}>
       <Items
         title="Order #132347"
         label="Disputed"
         date="Order Made on Thursday, April 30, 2022"
         labelColor={Colors.danger}
       />
-      <TouchableOpacity style={styles.ordDetails}>
+      <TouchableOpacity
+        style={styles.ordDetails}
+        onPress={() =>
+          navigation.navigate("Orders", {
+            screen: "orderDetails",
+          })
+        }
+      >
         <MeidumText
           text="View Order Details"
           style={{ color: Colors.primary, textAlign: "center", fontSize: 20 }}
@@ -34,7 +47,7 @@ export default function DisputeDetails() {
         />
         <AppText text="eum nam eligendi velit provident neque accusamus magni dolorum, earum ducimus ratione" />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

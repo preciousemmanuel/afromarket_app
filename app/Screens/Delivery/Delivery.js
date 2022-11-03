@@ -4,8 +4,10 @@ import AppInput from "../../Components/AppInput";
 import Colors from "../../Config/Colors";
 import LocationItem from "../../Components/LocationItem";
 import { Items } from "../../Components/OpenItems";
+import Screen from "../Screen";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function Delivery() {
+export default function Delivery({ navigation }) {
   const locations = [
     {
       id: 1,
@@ -45,29 +47,36 @@ export default function Delivery() {
     },
   ];
   return (
-    <View style={styles.main}>
-      <AppInput
-        placeholder="Search here"
-        style={{ backgroundColor: Colors.white }}
+    <Screen>
+      <MaterialCommunityIcons
+        name="menu"
+        size={30}
+        style={{ margin: 10 }}
+        onPress={() => navigation.openDrawer()}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {locations.map((m) => (
-          <LocationItem
-            street={m.street}
-            city={m.city}
-            price={m.price}
-            key={m.id}
-          />
-        ))}
-        <View style={{ padding: 50 }} />
-      </ScrollView>
-    </View>
+      <View style={styles.main}>
+        <AppInput
+          placeholder="Search here"
+          style={{ backgroundColor: Colors.white }}
+        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {locations.map((m) => (
+            <LocationItem
+              street={m.street}
+              city={m.city}
+              price={m.price}
+              key={m.id}
+            />
+          ))}
+          <View style={{ padding: 50 }} />
+        </ScrollView>
+      </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   main: {
-    marginTop: 25,
     flex: 1,
     backgroundColor: Colors.light,
     paddingHorizontal: 10,

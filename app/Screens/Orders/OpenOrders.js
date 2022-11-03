@@ -1,9 +1,15 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import OpenItems from "../../Components/OpenItems";
 import Colors from "../../Config/Colors";
 
-export default function OpenOrders() {
+export default function OpenOrders({ navigation }) {
   const items = [
     {
       id: 2,
@@ -76,15 +82,17 @@ export default function OpenOrders() {
         data={items}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <OpenItems
-            labelColor={
-              item.label === "Active" ? Colors.primary : Colors.pending
-            }
-            label={item.label}
-            title={item.title}
-            subTitle={item.subtitle}
-            date={item.date}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate("orderDetails")}>
+            <OpenItems
+              labelColor={
+                item.label === "Active" ? Colors.primary : Colors.pending
+              }
+              label={item.label}
+              title={item.title}
+              subTitle={item.subtitle}
+              date={item.date}
+            />
+          </TouchableOpacity>
         )}
       />
     </View>

@@ -1,18 +1,20 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import React from "react";
 import Screen from "../Screen";
 import AppText, { MeidumText } from "../../Components/AppText";
 import AppBtn, { OutlineBtn } from "../../Components/AppBtn";
 import Line from "../../Components/Line";
 import Colors from "../../Config/Colors";
-import { Ionicons } from "@expo/vector-icons";
 import { Formik } from "formik";
+import SubmitButton from "../../Components/Submit";
+import ImageInput from "../../Components/ImageInput";
+import DocumentInput from "../../Components/DocumentInput";
+
+import * as Yup from "yup";
+
+const validationSchema = Yup.object().shape({
+  busDoc: Yup.object().required().nullable().label("Business Document"),
+});
 
 export default function BusDoc({ handleNextStep, handlePrevStep, data }) {
   const handleSubmit = (values) => {
@@ -20,24 +22,22 @@ export default function BusDoc({ handleNextStep, handlePrevStep, data }) {
   };
   return (
     <Screen>
-      <Formik initialValues={data} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={data}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
+      >
         {({ values }) => (
           <>
             <ScrollView style={{ flex: 1, height: "100%" }}>
               <View style={styles.container}>
                 <MeidumText text="Upload a business" />
                 <MeidumText text="document" />
-                <Line start={0} stop={0.8} style={{ width: "100%" }} />
+                <Line start={0.7} stop={0.7} style={{ width: "100%" }} />
                 <AppText text="Business Document" />
+
                 <TouchableOpacity>
-                  <View style={styles.docInput}>
-                    <Ionicons
-                      name="document-text-outline"
-                      size={28}
-                      color={Colors.dark}
-                    />
-                    <AppText text="Upload CAC document" />
-                  </View>
+                  <DocumentInput name="busDoc" />
                 </TouchableOpacity>
               </View>
             </ScrollView>
@@ -48,10 +48,9 @@ export default function BusDoc({ handleNextStep, handlePrevStep, data }) {
                 style={{ width: "50%" }}
                 color={Colors.primary}
               />
-              <AppBtn
-                handlePress={handleNextStep}
+              <SubmitButton
                 title="Next"
-                color="green"
+                color={Colors.primary}
                 style={{ width: "50%", marginLeft: 10 }}
               />
             </View>
@@ -61,38 +60,52 @@ export default function BusDoc({ handleNextStep, handlePrevStep, data }) {
     </Screen>
   );
 }
-
-export const BusImage = ({ handleNextStep, handlePrevStep }) => {
+const validationSchemaTwo = Yup.object().shape({
+  busImg: Yup.string().required().label("Brand Image"),
+});
+export const BusImage = ({ handleNextStep, handlePrevStep, data }) => {
+  const handleSubmit = (values) => {
+    handleNextStep(values);
+  };
   return (
     <Screen>
-      <ScrollView style={{ flex: 1, height: "100%" }}>
-        <View style={styles.container}>
-          <MeidumText text="Upload your brand" />
-          <MeidumText text="Image" />
-          <Line start={1} stop={1} style={{ width: "100%" }} />
-          <AppText text="Business Document" />
-          <TouchableOpacity>
-            <View style={styles.imageInput}>
-              <Ionicons name="image" size={28} color={Colors.dark} />
-              <AppText text="Upload image" style={{ marginTop: 8 }} />
+      <Formik
+        initialValues={data}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchemaTwo}
+      >
+        {({ values }) => (
+          <>
+            <ScrollView style={{ flex: 1, height: "100%" }}>
+              <View style={styles.container}>
+                <MeidumText text="Upload your brand" />
+                <MeidumText text="Image" />
+                <Line start={1} stop={1} style={{ width: "100%" }} />
+                <AppText
+                  text="Business Document"
+                  style={{ marginBottom: 20 }}
+                />
+                <TouchableOpacity>
+                  <ImageInput name="busImg" />
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+            <View style={styles.footer}>
+              <OutlineBtn
+                handlePress={() => handlePrevStep(values)}
+                title="Back"
+                style={{ width: "50%" }}
+                color={Colors.primary}
+              />
+              <SubmitButton
+                title="Get Started"
+                color={Colors.primary}
+                style={{ width: "50%", marginLeft: 10 }}
+              />
             </View>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-      <View style={styles.footer}>
-        <OutlineBtn
-          handlePress={handlePrevStep}
-          title="Back"
-          style={{ width: "50%" }}
-          color={Colors.primary}
-        />
-        <AppBtn
-          handlePress={handleNextStep}
-          title="Get Started"
-          color="green"
-          style={{ width: "50%", marginLeft: 10 }}
-        />
-      </View>
+          </>
+        )}
+      </Formik>
     </Screen>
   );
 };
@@ -106,10 +119,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
     padding: 20,
-    bottom: -10,
+    bottom: 20,
     position: "relative",
   },
   docInput: {

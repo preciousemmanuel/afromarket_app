@@ -1,10 +1,16 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import OpenItems, { Items } from "../../Components/OpenItems";
 import Screen from "../Screen";
 import Colors from "../../Config/Colors";
 
-export default function CloseOrders() {
+export default function CloseOrders({ navigation }) {
   const items = [
     {
       id: 2,
@@ -78,13 +84,17 @@ export default function CloseOrders() {
           data={items}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <OpenItems
-              labelColor={Colors.primary}
-              label={item.label}
-              title={item.title}
-              subTitle={item.subtitle}
-              date={item.date}
-            />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("orderDetails")}
+            >
+              <OpenItems
+                labelColor={Colors.primary}
+                label={item.label}
+                title={item.title}
+                subTitle={item.subtitle}
+                date={item.date}
+              />
+            </TouchableOpacity>
           )}
         />
       </View>

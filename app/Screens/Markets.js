@@ -15,7 +15,10 @@ import AppText, { MeidumText } from "../Components/AppText";
 import CheckBox from "../Components/CheckBox";
 import { Feather } from "@expo/vector-icons";
 import AppBtn, { OutlineBtn } from "../Components/AppBtn";
-export default function Markets({ navigation }) {
+import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+export default function Markets() {
+  const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
   const datas = [
     {
@@ -37,8 +40,23 @@ export default function Markets({ navigation }) {
   ];
 
   return (
-    <Screen>
+    <>
       <View style={styles.market}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <MaterialCommunityIcons
+            name="menu"
+            size={30}
+            style={{ margin: 10, marginLeft: 25 }}
+            onPress={() => navigation.openDrawer()}
+          />
+          <MaterialCommunityIcons
+            color={Colors.primary}
+            name="filter"
+            size={23}
+            style={{ margin: 10, marginRight: 20 }}
+            onPress={() => setVisible(true)}
+          />
+        </View>
         <View style={styles.search}>
           <AppInput
             iconName="ios-search-outline"
@@ -75,7 +93,7 @@ export default function Markets({ navigation }) {
             <AppText text="Location" style={{ fontWeight: "700" }} />
             <AppInput
               style={{ backgroundColor: "#dadada" }}
-              placeholder="Search here"
+              placeholder="Location"
             />
             <AppText
               text="Filter by"
@@ -102,7 +120,7 @@ export default function Markets({ navigation }) {
           </View>
         </Modal>
       </View>
-    </Screen>
+    </>
   );
 }
 

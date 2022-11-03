@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-
+import Colors from "../../Config/Colors";
 export default function NewRateCard() {
   return (
     <View style={styles.main}>

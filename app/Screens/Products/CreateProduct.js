@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import React from "react";
 import Screen from "../Screen";
 import AppText, { MeidumText } from "../../Components/AppText";
@@ -8,6 +8,7 @@ import Colors from "../../Config/Colors";
 import Line from "../../Components/Line";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import SubmitButton from "../../Components/Submit";
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required().min(1).label("Product Name"),
   productDetails: Yup.string().required().min(1).label("Product Details"),
@@ -16,7 +17,11 @@ const validationSchema = Yup.object().shape({
   Tags: Yup.number().required().min(10).max(10).label("Tags"),
 });
 
-export default function CreateProduct({ handleNextStep, handlePrevStep }) {
+export default function CreateProduct({
+  handleNextStep,
+  handlePrevStep,
+  navigation,
+}) {
   return (
     <Screen>
       <Formik
@@ -40,7 +45,9 @@ export default function CreateProduct({ handleNextStep, handlePrevStep }) {
                 }}
               >
                 <MeidumText text="Create Product" style={{ fontSize: 30 }} />
-                <AppText text="Cancel" style={{ color: Colors.primary }} />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <AppText text="Cancel" style={{ color: Colors.primary }} />
+                </TouchableOpacity>
               </View>
               <Line start={0.4} stop={0.4} style={{ width: "90%" }} />
               <AppText text="Product Details" />
@@ -60,10 +67,10 @@ export default function CreateProduct({ handleNextStep, handlePrevStep }) {
               </View>
             </View>
             <View style={styles.footer}>
-              <AppBtn
+              <SubmitButton
                 title="Next"
                 color={Colors.primary}
-                style={[styles.btn]}
+                style={styles.btn}
                 handlePress={handleNextStep}
               />
             </View>

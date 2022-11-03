@@ -1,39 +1,154 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
 import Screen from "../Screen";
 import AppText, { MeidumText } from "../../Components/AppText";
-import AppInput from "../../Components/AppInput";
-import AppBtn, { OutlineBtn } from "../../Components/AppBtn";
 import Colors from "../../Config/Colors";
+import AppFormField from "../../Components/Forms/AppFormField";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import SubmitButton from "../../Components/Submit";
+import Details from "./Details";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Register() {
+const ValidationSchema = Yup.object({
+  email: Yup.string().required().email().label("Email"),
+  password: Yup.string().required("Password field is required"),
+  fullName: Yup.string().required("FullName field is required"),
+  confirm_password: Yup.string().when("password", {
+    is: (val) => (val && val.length > 0 ? true : false),
+    then: Yup.string().oneOf(
+      [Yup.ref("password")],
+      "Both password need to be the same"
+    ),
+  }),
+});
+export default function Register({ handleNext, data }) {
+  const [visible, setVisible] = useState(false);
+  const [visible1, setVisible1] = useState(false);
+  const navigation = useNavigation();
+  const handleSubmit = (values) => {
+    handleNext(values);
+  };
   return (
     <Screen>
-      <View style={styles.container}>
-        <MeidumText text="Welcome" />
-        <AppText text="Let's get you started" />
+      <Formik
+        initialValues={data}
+        validationSchema={ValidationSchema}
+        onSubmit={handleSubmit}
+      >
+        <>
+          <ScrollView style={styles.container}>
+            <MeidumText text="Welcome" />
+            <AppText text="Let's get you started" />
 
-        <View style={styles.form}>
-          <AppInput placeholder="Email Address" />
-          <AppInput placeholder="Create password" />
-          <AppInput placeholder="Confirm password" />
-        </View>
-        <View style={styles.footer}>
-          <AppBtn title="Continue" color={Colors.primary} style={styles.btn} />
-          <AppText
-            text="Already have an account?"
-            style={{ fontSize: 18, marginBottom: 6 }}
-          />
-          <TouchableOpacity>
-            <AppText
-              text="Login"
-              style={{ fontSize: 18, color: Colors.primary, fontWeight: "700" }}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+            <View style={styles.form}>
+              <AppFormField placeholder="FullName" name="fullName" />
+              <AppFormField placeholder="Email Address" name="email" />
+              <View>
+                <MaterialCommunityIcons
+                  name={!visible ? "eye" : "eye-off"}
+                  color={Colors.dark_light}
+                  size={30}
+                  style={styles.passEye}
+                  onPress={() => setVisible((prevState) => !prevState)}
+                />
+                <AppFormField
+                  multiline={false}
+                  keyboardType={"default"}
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  placeholder="Create password"
+                  secureTextEntry={!visible}
+                  name="password"
+                />
+              </View>
+              <View>
+                <MaterialCommunityIcons
+                  name={!visible1 ? "eye" : "eye-off"}
+                  color={Colors.dark_light}
+                  size={30}
+                  style={styles.passEye}
+                  onPress={() => setVisible1((prevState) => !prevState)}
+                />
+                <AppFormField
+                  multiline={false}
+                  keyboardType={"default"}
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  placeholder="Confirm password"
+                  secureTextEntry={!visible1}
+                  name="confirm_password"
+                />
+              </View>
+            </View>
+            <View style={{ padding: 30 }} />
+            <View style={styles.footer}>
+              <SubmitButton
+                title="Continue"
+                color={Colors.primary}
+                style={styles.btn}
+              />
+              <AppText
+                text="Already have an account?"
+                style={{ fontSize: 18, marginBottom: 6 }}
+              />
+              <TouchableOpacity onPress={() => navigation.navigate("login")}>
+                <AppText
+                  text="Login"
+                  style={{
+                    fontSize: 18,
+                    color: Colors.primary,
+                    fontWeight: "700",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </>
+      </Formik>
     </Screen>
   );
+}
+
+export function RegisterUser({ navigation }) {
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+    confirm_password: "",
+    first_name: "",
+    last_name: "",
+    country: "",
+    state: "",
+    phone_number: "",
+    fullName: "",
+  });
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const makeRequest = (formData) => {
+    console.log("Form Submitted", formData);
+    navigation.navigate("appNav");
+  };
+
+  const handleNextStep = (newData) => {
+    setData((prev) => ({ ...prev, ...newData }));
+
+    if (currentStep >= steps.length - 1) {
+      makeRequest(newData);
+      return;
+    }
+
+    setCurrentStep((prev) => prev + 1);
+    console.log(currentStep);
+  };
+  const steps = [
+    <Register handleNext={handleNextStep} data={data} />,
+    <Details handleNext={handleNextStep} data={data} />,
+  ];
+
+  return <Screen>{steps[currentStep]}</Screen>;
 }
 
 const styles = StyleSheet.create({
@@ -45,6 +160,13 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 20,
     flex: 1,
+    height: "100%",
+  },
+  passEye: {
+    position: "absolute",
+    right: 10,
+    zIndex: 10,
+    top: 25,
   },
   form: {
     paddingTop: 60,
@@ -55,6 +177,6 @@ const styles = StyleSheet.create({
   footer: {
     justifyContent: "center",
     alignItems: "center",
-    bottom: -150,
+    bottom: 30,
   },
 });

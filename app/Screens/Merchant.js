@@ -1,14 +1,15 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Screen from "./Screen";
 import { LinearGradient } from "expo-linear-gradient";
 import AppText, { BoldText } from "../Components/AppText";
 import AppBtn from "../Components/AppBtn";
 import Line from "../Components/Line";
+import Colors from "../Config/Colors";
 
-export default function Merchant() {
+export default function Merchant({ navigation }) {
   return (
-    <Screen>
+    <ScrollView>
       <Image
         source={require("../assets/afroimage2.png")}
         resizeMode="cover"
@@ -29,9 +30,14 @@ export default function Merchant() {
         </View>
       </LinearGradient>
       <View style={styles.btnContainer}>
-        <AppBtn title="Get Started" color="green" style={styles.btn} />
+        <AppBtn
+          title="Get Started"
+          color={Colors.primary}
+          handlePress={() => navigation.navigate("login")}
+          style={styles.btn}
+        />
       </View>
-    </Screen>
+    </ScrollView>
   );
 }
 

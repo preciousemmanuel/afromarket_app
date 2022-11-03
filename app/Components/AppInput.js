@@ -11,18 +11,20 @@ export default function AppInput({
   const [focus, setFocus] = useState(false);
 
   const changeBlur = () => {
-    handleBlur();
     setFocus(false);
+    {
+      handleBlur && handleBlur();
+    }
   };
   return (
     <View style={[styles.container, style, focus ? styles.border : null]}>
       <Ionicons name={iconName} size={28} color={Colors.black} />
       <TextInput
-        {...otherProps}
         multiline
         onFocus={() => setFocus(true)}
         onBlur={changeBlur}
         style={styles.TextInput}
+        {...otherProps}
       />
     </View>
   );
