@@ -13,7 +13,7 @@ import DocumentInput from "../../Components/DocumentInput";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-  busDoc: Yup.object().required().nullable().label("Business Document"),
+  cac_document: Yup.object().required().nullable().label("Business Document"),
 });
 
 export default function BusDoc({ handleNextStep, handlePrevStep, data }) {
@@ -37,7 +37,7 @@ export default function BusDoc({ handleNextStep, handlePrevStep, data }) {
                 <AppText text="Business Document" />
 
                 <TouchableOpacity>
-                  <DocumentInput name="busDoc" />
+                  <DocumentInput name="cac_document" />
                 </TouchableOpacity>
               </View>
             </ScrollView>
@@ -61,7 +61,7 @@ export default function BusDoc({ handleNextStep, handlePrevStep, data }) {
   );
 }
 const validationSchemaTwo = Yup.object().shape({
-  busImg: Yup.string().required().label("Brand Image"),
+  brand_Image: Yup.string().required().label("Brand Image"),
 });
 export const BusImage = ({ handleNextStep, handlePrevStep, data }) => {
   const handleSubmit = (values) => {
@@ -86,7 +86,7 @@ export const BusImage = ({ handleNextStep, handlePrevStep, data }) => {
                   style={{ marginBottom: 20 }}
                 />
                 <TouchableOpacity>
-                  <ImageInput name="busImg" />
+                  <ImageInput name="brand_Image" />
                 </TouchableOpacity>
               </View>
             </ScrollView>

@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -8,8 +8,15 @@ import AppText, { MeidumText } from "../Components/AppText";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useNavigation } from "@react-navigation/native";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import AuthContext from "../Context/AuthContext";
+import Storage from "../Context/Storage";
 export default function CustomDrawer(props) {
   const navigation = useNavigation();
+  const { user, setUser } = useContext(AuthContext);
+  const handleLogout = () => {
+    setUser(null);
+    Storage.removeToken();
+  };
   return (
     <View style={{ flex: 1, justifyContent: "space-around" }}>
       <DrawerContentScrollView {...props}>
@@ -50,10 +57,7 @@ export default function CustomDrawer(props) {
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("welcoming")}
-        style={styles.logout}
-      >
+      <TouchableOpacity onPress={handleLogout} style={styles.logout}>
         <Ionicons name="ios-log-out" size={30} color="#fff" />
         <AppText text="Sign Out" style={{ color: Colors.white }} />
       </TouchableOpacity>

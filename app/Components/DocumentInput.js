@@ -19,11 +19,7 @@ export default function DocumentInput({ name }) {
   const pickDocument = async () => {
     setFieldTouched([name]);
     let result = await DocumentPicker.getDocumentAsync({
-      type: [
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "application/pdf",
-      ],
+      type: ["application/pdf"],
     });
     if (result.type === "success") {
       setFieldValue(name, result);

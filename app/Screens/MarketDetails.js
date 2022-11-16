@@ -1,37 +1,41 @@
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
-import React from "react";
+import { FlatList, StyleSheet, View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard";
 import Colors from "../Config/Colors";
 import { OutlineBtn } from "../Components/AppBtn";
 import AppText, { BoldText, MeidumText } from "../Components/AppText";
 import Card from "../Components/Card";
-export default function MarketDetails({ navigation }) {
-  const topProducts = [
-    {
-      id: 1,
-      title: "Apple iphone 11",
-      img: require("../assets/image5.jpg"),
-      price: 45000,
-    },
-    {
-      id: 5,
-      title: "Apple iphone 11",
-      img: require("../assets/image5.jpg"),
-      price: 45000,
-    },
-    {
-      id: 3,
-      title: "Apple iphone 11",
-      img: require("../assets/image5.jpg"),
-      price: 45000,
-    },
-    {
-      id: 4,
-      title: "Apple iphone 11",
-      img: require("../assets/image5.jpg"),
-      price: 30000,
-    },
-  ];
+import axios from "axios";
+import ActivityIndicator from "../Components/ActivityIndicator";
+export default function MarketDetails({ navigation, route }) {
+  const { id, other } = route.params;
+  const [topProducts, setTopProducts] = useState([]);
+  const [curentMerchant, setCurrentMerchant] = useState({});
+  const [curentMerchantDet, setCurrentMerchantDet] = useState({});
+  const [loading, setLoading] = useState(true);
+  const apiEndpoint = "https://afromarket-be-ekn6j.ondigitalocean.app";
+  useEffect(() => {
+    setLoading(true);
+    const getCurrentMerchant = async () => {
+      setLoading(true);
+      const { data } = await axios.get(
+        `${apiEndpoint}/afro-market/v1/merchant/view/${id}`
+      );
+      setCurrentMerchant(data.data, "current Merchant");
+      setCurrentMerchantDet(data.data.merchant, "current Merchant");
+    };
+
+    const getMerchantProducts = async () => {
+      setLoading(true);
+      const { data } = await axios.get(
+        `${apiEndpoint}/afro-market/v1/product/by-merchant/${id}?limit=10&page=1`
+      );
+      setTopProducts(data.data.products.data.rows);
+      setLoading(false);
+    };
+    getCurrentMerchant();
+    getMerchantProducts();
+  }, []);
   const ratingReviews = [
     {
       id: 1,
@@ -55,82 +59,116 @@ export default function MarketDetails({ navigation }) {
       customer: "John Iweala",
     },
   ];
+  if (loading) {
+    return <ActivityIndicator visible={loading} />;
+  }
 
   return (
     <>
-      <ScrollView style={styles.list}>
-        <Card
-          img={require("../assets/afroimage5.png")}
-          style={{
-            backgroundColor: Colors.light,
-            // width: "90%",
-            padding: 10,
-            justifyContent: "center",
-            alignSelf: "center",
-          }}
-        />
-        <View>
-          <MeidumText
-            style={{ fontSize: 20, paddingHorizontal: 20, paddingVertical: 5 }}
-            text="Top Products"
-          />
-          <FlatList
-            numColumns={2}
-            data={topProducts}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <ProductCard
-                handlePress={() => navigation.navigate("productDetails")}
-                img={item.img}
-                price={item.price}
-                title={item.title}
+      <View style={styles.list}>
+        <FlatList
+          ListHeaderComponent={
+            <>
+              <Card
+                address={" " + curentMerchantDet.address}
+                numReviews={`${curentMerchant.no_of_reviews}`}
+                rating={curentMerchantDet.ratings}
+                title={curentMerchantDet.business_name}
+                img={curentMerchantDet.brand_image}
+                style={{
+                  backgroundColor: Colors.light,
+                  padding: 10,
+                  justifyContent: "center",
+                  alignSelf: "center",
+                }}
               />
-            )}
-          />
-        </View>
-        <OutlineBtn
-          style={{
-            alignSelf: "center",
-            width: "90%",
-            padding: 10,
-          }}
-          title="View All Products"
-          color={Colors.primary}
-        />
-        <View style={styles.rating}>
-          <View style={styles.ratingTxt}>
-            <MeidumText text="Ratings & Reviews" />
-            <AppText text="View All" />
-          </View>
-          <FlatList
-            data={ratingReviews}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={{ paddingVertical: 10 }}>
-                <AppText text={item.review} />
+              {topProducts.length > 0 ? (
                 <MeidumText
-                  text={item.customer}
-                  style={{ fontSize: 16, paddingTop: 5 }}
+                  style={{
+                    fontSize: 20,
+                    paddingHorizontal: 20,
+                    paddingVertical: 5,
+                  }}
+                  text="Top Products"
+                />
+              ) : (
+                <MeidumText
+                  style={{
+                    fontSize: 20,
+                    paddingHorizontal: 20,
+                    paddingVertical: 5,
+                    textAlign: "center",
+                  }}
+                  text="No Product Available"
+                />
+              )}
+            </>
+          }
+          numColumns={2}
+          data={topProducts}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <ProductCard
+              handlePress={() =>
+                navigation.navigate("productDetails", { id: item.id })
+              }
+              img={item.images[0]}
+              price={item.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+              title={item.name}
+            />
+          )}
+          ListFooterComponent={
+            <>
+              {topProducts.length > 0 ? (
+                <OutlineBtn
+                  style={{
+                    alignSelf: "center",
+                    width: "90%",
+                    padding: 10,
+                  }}
+                  title="View All Products"
+                  color={Colors.primary}
+                />
+              ) : null}
+
+              <View style={styles.rating}>
+                <View style={styles.ratingTxt}>
+                  <MeidumText text="Ratings & Reviews" />
+                  <AppText text="View All" />
+                </View>
+                <FlatList
+                  data={ratingReviews}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderItem={({ item }) => (
+                    <View style={{ paddingVertical: 10 }}>
+                      <AppText text={item.review} />
+                      <MeidumText
+                        text={item.customer}
+                        style={{ fontSize: 16, paddingTop: 5 }}
+                      />
+                    </View>
+                  )}
                 />
               </View>
-            )}
-          />
-        </View>
-      </ScrollView>
-      <View style={styles.footer}>
-        <OutlineBtn
-          title="Contact Merchant"
-          color={Colors.white}
-          style={{ backgroundColor: Colors.primary, width: "49%" }}
-          iconFam="chatbox-ellipses-outline"
-          iconColor={Colors.white}
-        />
-        <OutlineBtn
-          title="Add to Customers"
-          color={Colors.white}
-          style={{ backgroundColor: Colors.primary, width: "49%" }}
-          icon="staro"
-          iconColor={Colors.white}
+
+              <View style={styles.footer}>
+                <OutlineBtn
+                  title="Contact Merchant"
+                  color={Colors.white}
+                  style={{ backgroundColor: Colors.primary, width: "49%" }}
+                  iconFam="chatbox-ellipses-outline"
+                  iconColor={Colors.white}
+                />
+                <OutlineBtn
+                  title="Add to Customers"
+                  color={Colors.white}
+                  style={{ backgroundColor: Colors.primary, width: "49%" }}
+                  icon="staro"
+                  iconColor={Colors.white}
+                />
+              </View>
+            </>
+          }
         />
       </View>
     </>

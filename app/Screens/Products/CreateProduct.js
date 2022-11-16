@@ -10,10 +10,14 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import SubmitButton from "../../Components/Submit";
 const validationSchema = Yup.object().shape({
-  productName: Yup.string().required().min(1).label("Product Name"),
+  name: Yup.string().required().min(1).label("Product Name"),
   productDetails: Yup.string().required().min(1).label("Product Details"),
-  productDescription: Yup.string().required().min(1).label("Color"),
-  price: Yup.number().required().min(10).label("Price"),
+  description: Yup.string().required().min(1).label("Product Description"),
+  price: Yup.number()
+    .transform((o, v) => parseInt(v.replace(/,/g, "")))
+    .required()
+    .min(300)
+    .label("Price"),
   Tags: Yup.number().required().min(10).max(10).label("Tags"),
 });
 
@@ -26,9 +30,9 @@ export default function CreateProduct({
     <Screen>
       <Formik
         initialValues={{
-          productName: "",
+          name: "",
           productDetails: "",
-          productDescription: "",
+          description: "",
           price: "",
           Tags: "",
         }}
@@ -52,17 +56,21 @@ export default function CreateProduct({
               <Line start={0.4} stop={0.4} style={{ width: "90%" }} />
               <AppText text="Product Details" />
               <View style={styles.form}>
-                <AppFormField name="productName" placeholder="Product Name" />
+                <AppFormField name="name" placeholder="Product Name" />
                 <AppFormField
                   name="productDetails"
                   placeholder="Product Details"
                 />
                 <AppFormField
-                  name="productDescription"
+                  name="description"
                   placeholder="Product Description"
                   numberOfLines={6}
                 />
-                <AppFormField name="price" placeholder="Condition" />
+                <AppFormField
+                  name="price"
+                  placeholder="Price"
+                  keyboardType="numeric"
+                />
                 <AppFormField name="Tags" placeholder="Tags" />
               </View>
             </View>
@@ -71,7 +79,6 @@ export default function CreateProduct({
                 title="Next"
                 color={Colors.primary}
                 style={styles.btn}
-                handlePress={handleNextStep}
               />
             </View>
           </ScrollView>

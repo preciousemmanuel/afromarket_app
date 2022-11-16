@@ -31,10 +31,14 @@ export default function Merchant({ navigation }) {
       </LinearGradient>
       <View style={styles.btnContainer}>
         <AppBtn
+          title="Merchant Login"
+          color={Colors.primary}
+          handlePress={() => navigation.navigate("merchantlogin")}
+        />
+        <AppBtn
           title="Get Started"
           color={Colors.primary}
           handlePress={() => navigation.navigate("login")}
-          style={styles.btn}
         />
       </View>
     </ScrollView>
@@ -51,11 +55,12 @@ const styles = StyleSheet.create({
     height: 450,
     width: "100%",
   },
-  btn: {
-    position: "absolute",
-    bottom: 130,
-  },
+  // btn: {},
   btnContainer: {
+    width: "100%",
+    position: "absolute",
+    bottom: 100,
+    flexDirection: "column",
     paddingHorizontal: 10,
     justifyContent: "center",
     alignItems: "center",

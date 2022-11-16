@@ -6,10 +6,13 @@ import Colors from "../../Config/Colors";
 import AppFormField from "../../Components/Forms/AppFormField";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import SubmitButton from "../../Components/Submit";
 import Details from "./Details";
 import { useNavigation } from "@react-navigation/native";
+import ErrorMessage from "../../Components/ErrorMessage";
 
 const ValidationSchema = Yup.object({
   email: Yup.string().required().email().label("Email"),
@@ -23,17 +26,39 @@ const ValidationSchema = Yup.object({
     ),
   }),
 });
-export default function Register({ handleNext, data }) {
+const apiEndpoint =
+  "https://afromarket-be-ekn6j.ondigitalocean.app/afro-market/v1/user/signup";
+export default function Register() {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
+  const [errorContext, setErrorContext] = useState(false);
+  if (errorMsg) {
+    setTimeout(() => {
+      setErrorMsg(false);
+    }, 2000);
+  }
   const navigation = useNavigation();
-  const handleSubmit = (values) => {
-    handleNext(values);
+  const handleSubmit = async (values) => {
+    delete values.confirm_password;
+    try {
+      const data = await axios.post(apiEndpoint, values);
+    } catch (error) {
+      setErrorMsg(true);
+      setErrorContext("Invalid user credential: Email already exist");
+      return;
+    }
+    console.log(response);
   };
   return (
     <Screen>
       <Formik
-        initialValues={data}
+        initialValues={{
+          fullName: "",
+          email: "",
+          password: "",
+          confirm_password: "",
+        }}
         validationSchema={ValidationSchema}
         onSubmit={handleSubmit}
       >
@@ -43,8 +68,13 @@ export default function Register({ handleNext, data }) {
             <AppText text="Let's get you started" />
 
             <View style={styles.form}>
-              <AppFormField placeholder="FullName" name="fullName" />
-              <AppFormField placeholder="Email Address" name="email" />
+              <ErrorMessage visible={errorMsg} error={errorContext} />
+              <AppFormField placeholder="Full Name" name="fullName" />
+              <AppFormField
+                placeholder="Email Address"
+                name="email"
+                keyboardType="email-address"
+              />
               <View>
                 <MaterialCommunityIcons
                   name={!visible ? "eye" : "eye-off"}

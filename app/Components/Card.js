@@ -4,16 +4,30 @@ import React from "react";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import AppText, { MeidumText } from "./AppText";
 import Colors from "../Config/Colors";
-import Screen from "../Screens/Screen";
 
-export default function Card({ title, address, img, style, imgStyle }) {
+export default function Card({
+  numReviews,
+  title,
+  address,
+  img,
+  style,
+  imgStyle,
+  rating,
+}) {
   return (
     <View style={[styles.card, style]}>
       <View>
-        <Image source={img} style={[styles.img, imgStyle]} resizeMode="cover" />
+        <Image
+          source={{ uri: img }}
+          style={[styles.img, imgStyle]}
+          resizeMode="cover"
+        />
       </View>
       <View style={styles.txtContainer}>
-        <MeidumText text="Mr Gadgets" style={{ fontSize: 24 }} />
+        <MeidumText
+          text={title}
+          style={{ fontSize: 24, textTransform: "capitalize" }}
+        />
         <View
           style={{
             flexDirection: "row",
@@ -22,12 +36,12 @@ export default function Card({ title, address, img, style, imgStyle }) {
           }}
         >
           <Feather name="map-pin" size={20} color={Colors.black} />
-          <AppText text=" 9,Ebinipenjo Lane, Idumota, Lagos" />
+          <AppText text={address} />
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <AntDesign name="staro" size={20} color={Colors.black} />
-          <AppText text="  4.2" />
-          <AppText text="  12 Reviews" />
+          {rating && <AppText text={` ${rating} `} />}
+          {numReviews && <AppText text={`${numReviews}  Reviews`} />}
         </View>
       </View>
     </View>

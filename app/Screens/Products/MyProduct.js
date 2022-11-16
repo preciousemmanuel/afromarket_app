@@ -1,70 +1,24 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ProductItems } from "../../Components/OpenItems";
-import Screen from "../Screen";
 import Colors from "../../Config/Colors";
+import axios from "axios";
+const url = "https://afromarket-be-ekn6j.ondigitalocean.app/";
 
 export default function MyProduct() {
-  const myProducts = [
-    {
-      id: 2,
-      title: "iPhone 11 Green 64gb",
-      label: "Mobile Phones",
-      price: 450000,
-    },
-    {
-      id: 3,
-      title: "iPhone 11 Green 64gb",
-      label: "Pending",
-      price: 450000,
-    },
-    {
-      id: 4,
-      title: "iPhone 11 Green 64gb",
-      label: "Mobile Phones",
-      price: 450000,
-    },
-    {
-      id: 5,
-      title: "iPhone 11 Green 64gb",
-      label: "Pending",
-      price: 450000,
-    },
-    {
-      id: 6,
-      title: "iPhone 11 Green 64gb",
-      label: "Mobile Phones",
-      price: 450000,
-    },
-    {
-      id: 7,
-      title: "iPhone 11 Green 64gb",
+  const [myProducts, setMyProducts] = useState(null);
+  useEffect(() => {
+    const HandleFetch = async () => {
+      const { data } = await axios.get(
+        `${url}afro-market/v1/product/get-all?limit=10&page=1`
+      );
+      setMyProducts(data.data.products.data.rows);
+      console.log(data.data.products.data.rows);
+    };
+    HandleFetch();
+    console.log(myProducts);
+  }, []);
 
-      label: "Active",
-      price: 450000,
-    },
-    {
-      id: 8,
-      title: "iPhone 11 Green 64gb",
-
-      label: "Pending",
-      price: 450000,
-    },
-    {
-      id: 9,
-      title: "iPhone 11 Green 64gb",
-
-      label: "Pending",
-      date: "Friday May 1, 2022",
-    },
-    {
-      id: 10,
-      title: "iPhone 11 Green 64gb",
-
-      label: "Mobile Phones",
-      price: 450000,
-    },
-  ];
   return (
     <>
       <View style={styles.main}>
@@ -74,9 +28,10 @@ export default function MyProduct() {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <ProductItems
-              title={item.title}
+              title={item.name}
               subTitle={item.price}
-              label={item.label}
+              label={item.category}
+              imgSrc={item.images[0]}
               img
             />
           )}

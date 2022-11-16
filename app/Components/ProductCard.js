@@ -10,7 +10,7 @@ export default function ProductCard({ img, price, title, handlePress }) {
 
   return (
     <TouchableOpacity style={styles.pcard} onPress={handlePress}>
-      <Image source={img} style={styles.img} />
+      <Image source={{ uri: img }} style={styles.img} />
       <View>
         <AppText
           text={title}
@@ -20,6 +20,7 @@ export default function ProductCard({ img, price, title, handlePress }) {
             fontSize: 18,
             fontFamily: "dm-medium",
             textAlign: "left",
+            textTransform: "capitalize",
           }}
         />
         <AppText

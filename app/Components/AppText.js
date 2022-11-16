@@ -22,7 +22,9 @@ export const BoldText = ({ text }) => {
 export const MeidumText = ({ text, style }) => {
   return (
     <View>
-      <Text style={[styles.medium, style]}>{text}</Text>
+      <Text style={[styles.medium, style]} numberOfLines={1}>
+        {text}
+      </Text>
     </View>
   );
 };

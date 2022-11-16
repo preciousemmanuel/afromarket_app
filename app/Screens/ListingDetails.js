@@ -1,21 +1,20 @@
-import {
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  View,
-  Modal,
-} from "react-native";
-import React, { useState } from "react";
+import { FlatList, Image, StyleSheet, View, Modal } from "react-native";
+import React, { useEffect, useState } from "react";
 import AppText, { MeidumText } from "../Components/AppText";
 import Colors from "../Config/Colors";
 import AppBtn, { OutlineBtn } from "../Components/AppBtn";
 import { SimpleLineIcons, Feather } from "@expo/vector-icons";
 import { ProductItems } from "../Components/OpenItems";
 import AppInput from "../Components/AppInput";
-export default function ListingDetails() {
+import axios from "axios";
+import ActivityIndicator from "../Components/ActivityIndicator";
+
+export default function ListingDetails({ route }) {
+  const { id } = route.params;
   const [visible, setVisible] = useState(false);
   const [visibleTwo, setVisibleTwo] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [currentProduct, setCurrentProduct] = useState(null);
   const ratingReviews = [
     {
       id: 1,
@@ -71,92 +70,121 @@ export default function ListingDetails() {
       name: "Green",
     },
   ];
+
+  const apiEndpoint = "https://afromarket-be-ekn6j.ondigitalocean.app";
+  useEffect(() => {
+    setLoading(true);
+    const getCurrentProduct = async () => {
+      setLoading(true);
+      const { data } = await axios.get(
+        `${apiEndpoint}/afro-market/v1/product/get-one/${id}`
+      );
+      console.log(data.data, "current Product");
+      setCurrentProduct(data.data);
+      setLoading(false);
+    };
+    getCurrentProduct();
+  }, []);
+  if (loading) {
+    return <ActivityIndicator visible={loading} />;
+  }
   return (
     <>
-      <ScrollView style={styles.prodDetails}>
-        <View>
-          <Image
-            source={require("../assets/image5.jpg")}
-            style={styles.img}
-            resizeMode="contain"
-          />
-        </View>
-
-        <View style={styles.txtCont}>
-          <MeidumText
-            text="Apple iPhone 11 Green 64GB"
-            style={{ fontSize: 23 }}
-          />
-          <MeidumText
-            text="₦ 450,000"
-            style={{ marginTop: 10, color: Colors.primary, fontSize: 23 }}
-          />
-          <View style={styles.btnCont}>
-            <OutlineBtn
-              handlePress={() => setVisibleTwo(true)}
-              title="Make offer"
-              color={Colors.white}
-              style={{ backgroundColor: Colors.primary, width: "47%" }}
-              iconFam="chatbox-ellipses-outline"
-              iconColor={Colors.white}
-            />
-            <OutlineBtn
-              title="Contact merchant"
-              color={Colors.primary}
-              style={{ width: "49%" }}
-              iconName="phone"
-              iconColor={Colors.primary}
-            />
-          </View>
-        </View>
-        <View style={styles.smallTxtCont}>
-          <AppText
-            style={{ color: Colors.dark_light }}
-            text="
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores est omnis veniam quis architecto quae fuga quas! Cupiditate aperiam in animi voluptates odio fugiat iste, porro tempore ipsam. Ipsum, cumque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores est omnis veniam quis."
-          />
-          <AppText
-            style={{ color: Colors.dark_light }}
-            text="
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores est omnis veniam quis architecto quae fuga quas! Cupiditate aperiam in animi voluptates odio fugiat iste,."
-          />
-        </View>
-        <View style={styles.rating}>
-          <FlatList
-            // horizontal={true}
-            numColumns={2}
-            data={qualities}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ index, item }) => (
-              <View style={[{ width: "50%" }]}>
-                <View style={{ paddingVertical: 10 }}>
-                  <MeidumText text={item.name} style={{ fontSize: 16 }} />
-                  <AppText text={item.quality} style={{ fontSize: 12 }} />
+      <View style={styles.prodDetails}>
+        <FlatList
+          ListHeaderComponent={
+            <>
+              <View>
+                <View style={styles.imageNo}>
+                  <AppText
+                    text={currentProduct.images.length}
+                    style={{ textAlign: "center" }}
+                  />
                 </View>
-              </View>
-            )}
-          />
-        </View>
-        <View style={styles.rating}>
-          <View style={styles.ratingTxt}>
-            <MeidumText text="Ratings & Reviews" />
-            <AppText text="View All" />
-          </View>
-          <FlatList
-            data={ratingReviews}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={{ paddingVertical: 10 }}>
-                <AppText text={item.review} />
-                <MeidumText
-                  text={item.customer}
-                  style={{ fontSize: 16, paddingTop: 5 }}
+                <Image
+                  source={{ uri: currentProduct.images[0] }}
+                  style={styles.img}
+                  resizeMode="contain"
                 />
               </View>
-            )}
-          />
-        </View>
-      </ScrollView>
+
+              <View style={styles.txtCont}>
+                <MeidumText
+                  text={currentProduct.name}
+                  style={{ fontSize: 23, textTransform: "capitalize" }}
+                />
+                <MeidumText
+                  text={`₦${currentProduct.price
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}`}
+                  style={{
+                    marginTop: 10,
+                    color: Colors.primary,
+                    fontSize: 23,
+                  }}
+                />
+                <View style={styles.btnCont}>
+                  <OutlineBtn
+                    handlePress={() => setVisibleTwo(true)}
+                    title="Make offer"
+                    color={Colors.white}
+                    style={{ backgroundColor: Colors.primary, width: "47%" }}
+                    iconFam="chatbox-ellipses-outline"
+                    iconColor={Colors.white}
+                  />
+                  <OutlineBtn
+                    title="Contact merchant"
+                    color={Colors.primary}
+                    style={{ width: "49%" }}
+                    iconName="phone"
+                    iconColor={Colors.primary}
+                  />
+                </View>
+              </View>
+              <View style={styles.smallTxtCont}>
+                <AppText
+                  style={{ color: Colors.dark_light }}
+                  text={currentProduct.description}
+                />
+              </View>
+            </>
+          }
+          ListFooterComponent={
+            <>
+              <View style={styles.rating}>
+                <View style={styles.ratingTxt}>
+                  <MeidumText text="Ratings & Reviews" />
+                  <AppText text="View All" />
+                </View>
+                <FlatList
+                  data={ratingReviews}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderItem={({ item }) => (
+                    <View style={{ paddingVertical: 10 }}>
+                      <AppText text={item.review} />
+                      <MeidumText
+                        text={item.customer}
+                        style={{ fontSize: 16, paddingTop: 5 }}
+                      />
+                    </View>
+                  )}
+                />
+              </View>
+            </>
+          }
+          numColumns={2}
+          data={qualities}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ index, item }) => (
+            <View style={[{ width: "50%", paddingHorizontal: 20 }]}>
+              <View style={{ paddingVertical: 10 }}>
+                <MeidumText text={item.name} style={{ fontSize: 16 }} />
+                <AppText text={item.quality} style={{ fontSize: 12 }} />
+              </View>
+            </View>
+          )}
+        />
+      </View>
       <View style={styles.footer}>
         <OutlineBtn
           title="Add to cart"
@@ -206,9 +234,9 @@ export default function ListingDetails() {
           <AppInput placeholder="450,000" />
           <View
             style={{
-              position: "absolute",
-              bottom: 20,
-              left: 20,
+              flexDirection: "column",
+              alignItems: "center",
+              bottom: 5,
               width: "100%",
             }}
           >
@@ -262,9 +290,7 @@ export default function ListingDetails() {
           <AppInput placeholder="450,000" />
           <View
             style={{
-              position: "absolute",
-              bottom: 20,
-              left: 20,
+              bottom: -20,
               width: "100%",
             }}
           >
@@ -350,5 +376,15 @@ const styles = StyleSheet.create({
     padding: 20,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+  },
+  imageNo: {
+    width: 50,
+    height: 25,
+    borderRadius: 5,
+    position: "absolute",
+    bottom: 10,
+    zIndex: 20,
+    left: 10,
+    backgroundColor: Colors.white,
   },
 });

@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../Components/Card";
 import Screen from "./Screen";
 import Colors from "../Config/Colors";
@@ -17,27 +17,30 @@ import { Feather } from "@expo/vector-icons";
 import AppBtn, { OutlineBtn } from "../Components/AppBtn";
 import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+
+import axios from "axios";
+import ActivityIndicator from "../Components/ActivityIndicator";
 export default function Markets() {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
-  const datas = [
-    {
-      id: 1,
-      img: require("../assets/afroimage3.jpg"),
-    },
-    {
-      id: 2,
-      img: require("../assets/afroimage2.png"),
-    },
-    {
-      id: 3,
-      img: require("../assets/afroimage5.png"),
-    },
-    {
-      id: 4,
-      img: require("../assets/afroimage1.png"),
-    },
-  ];
+  const [merchants, setMerchants] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const apiEndpoint = "https://afromarket-be-ekn6j.ondigitalocean.app";
+  useEffect(() => {
+    const getAllMerchants = async () => {
+      setLoading(true);
+      const { data } = await axios.get(
+        `${apiEndpoint}/afro-market/v1/merchant/all?limit=10&page=1`
+      );
+      setMerchants(data.data.allMerchants.data.rows);
+      setLoading(false);
+    };
+    getAllMerchants();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator visible={loading} />;
+  }
 
   return (
     <>
@@ -67,14 +70,24 @@ export default function Markets() {
         <FlatList
           style={styles.list}
           showsVerticalScrollIndicator={false}
-          data={datas}
+          data={merchants}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <TouchableHighlight
               underlayColor={Colors.white}
-              onPress={() => navigation.navigate("marketDetails")}
+              onPress={() =>
+                navigation.navigate("marketDetails", {
+                  id: item.id,
+                  other: { name: item.business_name },
+                })
+              }
             >
-              <Card img={item.img} />
+              <Card
+                img={item.brand_image}
+                title={item.business_name}
+                address={item.address}
+                rating={item.ratings}
+              />
             </TouchableHighlight>
           )}
         />

@@ -49,23 +49,22 @@ export function Items({ title, subTitle, date, label, labelColor }) {
     </View>
   );
 }
-export function ProductItems({ title, subTitle, label, style, img }) {
+export function ProductItems({ title, subTitle, label, style, imgSrc, img }) {
   return (
     <View style={[styles.item, { height: 100 }, style]}>
-      {img && (
-        <Image source={require("../assets/image5.jpg")} style={styles.img} />
-      )}
+      {img && <Image source={{ uri: imgSrc }} style={styles.img} />}
       <View style={styles.txtCont}>
-        {/* <View> */}
-        <MeidumText text={title} style={{ fontSize: 19 }} />
-        {label && <AppText text={label} />}
-        {/* </View> */}
-
+        <MeidumText
+          text={title}
+          style={{ fontSize: 19, textTransform: "capitalize" }}
+        />
+        {label && (
+          <AppText text={label} style={{ textTransform: "capitalize" }} />
+        )}
         <MeidumText
           text={subTitle}
           style={{ fontSize: 19, color: Colors.primary }}
         />
-        {/* <AppText text={date} style={{ fontSize: 14 }} /> */}
       </View>
     </View>
   );

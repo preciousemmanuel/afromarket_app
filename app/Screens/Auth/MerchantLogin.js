@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Screen from "../Screen";
 import AppText, { MeidumText } from "../../Components/AppText";
 
@@ -19,18 +19,17 @@ import SubmitButton from "../../Components/Submit";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import axios from "axios";
 import ErrorMessage from "../../Components/ErrorMessage";
+
 import UseAuth from "../../Context/UseAuth";
-import AuthContext from "../../Context/AuthContext";
-import Storage from "../../Context/Storage";
 import ActivityIndicator from "../../Components/ActivityIndicator";
+
 const ValidationSchema = Yup.object({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required("Password field is required"),
 });
 
 const apiEndpoint = "https://afromarket-be-ekn6j.ondigitalocean.app";
-export default function Login({ navigation }) {
-  const { user, setUser } = useContext(AuthContext);
+export default function MerchantLogin({ navigation }) {
   const auth = UseAuth();
   const [visible, setVisible] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
@@ -38,13 +37,13 @@ export default function Login({ navigation }) {
   if (errorMsg === true) {
     setTimeout(() => {
       setErrorMsg(false);
-    }, 5000);
+    }, 3000);
   }
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        `${apiEndpoint}/afro-market/v1/user/login`,
+        `${apiEndpoint}/afro-market/v1/merchant/login`,
         values
       );
       if (data.status !== "success") {
@@ -53,7 +52,6 @@ export default function Login({ navigation }) {
       auth.logIn(data.data.accesstoken);
       setLoading(false);
     } catch (error) {
-      setLoading(false);
       return setErrorMsg(true);
     }
   };
@@ -70,7 +68,7 @@ export default function Login({ navigation }) {
       >
         <ScrollView>
           <View style={styles.container}>
-            <MeidumText text="Welcome Back" />
+            <MeidumText text="Welcome Back Merchant!" />
             <AppText text="Let's pick up where you left off" />
 
             <View style={styles.form}>
@@ -91,6 +89,7 @@ export default function Login({ navigation }) {
                   style={styles.passEye}
                   onPress={() => setVisible((prevState) => !prevState)}
                 />
+
                 <AppFormField
                   multiline={false}
                   autoCorrect={false}
@@ -119,7 +118,6 @@ export default function Login({ navigation }) {
                 color={Colors.primary}
                 style={styles.btn}
               />
-              <OutlineBtn title="Continue with Google" iconName="google" />
             </View>
           </View>
           <View style={styles.footer}>
@@ -127,9 +125,9 @@ export default function Login({ navigation }) {
               text="Are you new here?"
               style={{ fontSize: 18, marginBottom: 5 }}
             />
-            <TouchableOpacity onPress={() => navigation.navigate("user")}>
+            <TouchableOpacity onPress={() => navigation.navigate("merchant")}>
               <AppText
-                text="Create an account"
+                text="Create Merchant account"
                 style={{
                   fontSize: 18,
                   color: Colors.primary,

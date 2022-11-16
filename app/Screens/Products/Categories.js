@@ -1,10 +1,23 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ProductItems } from "../../Components/OpenItems";
 import Screen from "../Screen";
 import Colors from "../../Config/Colors";
-
+import axios from "axios";
+const url = "https://afromarket-be-ekn6j.ondigitalocean.app/";
 export default function Categories() {
+  const [prodCategories, setProdCategories] = useState(null);
+  useEffect(() => {
+    const HandleFetch = async () => {
+      const { data } = await axios.get(
+        `${url}afro-market/v1/category/all?limit=10&page=1`
+      );
+      setProdCategories(data.data.allCategories.data.rows);
+      // console.log(data.data.products.data.rows);
+    };
+    HandleFetch();
+    console.log(prodCategories);
+  }, []);
   const myProducts = [
     {
       id: 2,
@@ -70,14 +83,14 @@ export default function Categories() {
       <View style={styles.main}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={myProducts}
+          data={prodCategories}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <ProductItems
               style={{ height: 80 }}
-              title={item.title}
+              title={item.name}
               // subTitle={item.price}
-              label={item.label}
+              label={item.description}
             />
           )}
         />
